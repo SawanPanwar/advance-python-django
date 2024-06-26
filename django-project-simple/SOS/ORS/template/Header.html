@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if request.session.firstName == None %}
+<h3>Hi, Guest</h3>
+<a href="/ORS/welcome/">Welcome</a> |
+<a href="/ORS/signIn/">Login</a>
+{% else %}
+<h3>Hi, {{request.session.firstName}}</h3>
+<a href="/ORS/save/">Add User</a> |
+<a href="/ORS/list/">User List</a> |
+<a href="/ORS/logout/">logout</a>
+{% endif %}
+<hr>
+</body>
+</html>

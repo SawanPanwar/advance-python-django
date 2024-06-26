@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "Header.html" %}
+<form>
+    {% csrf_token %}
+    <table border="1" width="100%">
+        <tr>
+            <th>Id</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>LoginID</th>
+            <th>Password</th>
+            <th>DOB</th>
+            <th>Address</th>
+        </tr>
+        {% for l in list %}
+        <tr>
+            <td align="center">{{ l.id }}</td>
+            <td align="center">{{ l.firstName }}</td>
+            <td align="center">{{ l.lastName }}</td>
+            <td align="center">{{ l.loginId }}</td>
+            <td align="center">{{ l.password }}</td>
+            <td align="center">{{ l.dob }}</td>
+            <td align="center">{{ l.address }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</form>
+</body>
+</html>

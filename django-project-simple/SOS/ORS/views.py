@@ -33,8 +33,9 @@ def user_signin(request):
         service = UserService()
         user_data = service.auth(loginId, password)
         if len(user_data) != 0:
-            # request.session["firstName"] = user_data[0].get('firstName')
+            request.session["firstName"] = user_data[0].get('firstName')
             return redirect("/ORS/welcome")
+            # return render(request, "Welcome.html", {'firstName': user_data[0].get('firstName')})
         else:
             message = 'login id & password is invalid'
     return render(request, "Login.html", {'message': message})
@@ -51,3 +52,35 @@ def test_list(request):
         {"id": 3, "firstName": "pqr", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"}
     ]
     return render(request, "TestList.html", {"list": list})
+
+
+def save_user(request):
+    message = ''
+    if request.method == "POST":
+        params = {}
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+        service = UserService()
+        service.add(params)
+        message = 'User Added Successfully'
+    return render(request, 'User.html', {'message': message})
+
+
+def user_list(request):
+    params = {}
+    params['pageNo'] = 0
+    params['pageSize'] = 5
+
+    service = UserService()
+    list = service.search(params);
+
+    return render(request, "UserList.html", {'list': list})
+
+
+def logout(request):
+    request.session['firstName'] = None
+    return redirect('/ORS/signIn')

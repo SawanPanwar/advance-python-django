@@ -20,8 +20,12 @@ def register_user(request):
         params['dob'] = request.POST.get('dob')
         params['address'] = request.POST.get('address')
         service = UserService()
-        service.add(params)
-        message = 'User Registered Successfully'
+        existUser = service.findByLogin(params['loginId'])
+        if len(existUser) == 0:
+            service.add(params)
+            message = 'User Registered Successfully'
+        else:
+            message = 'Login Id already exist..!!'
     return render(request, 'UserRegistration.html', {'message': message})
 
 
@@ -72,13 +76,29 @@ def save_user(request):
 
 def user_list(request):
     params = {}
-    params['pageNo'] = 0
+    params['pageNo'] = 1
     params['pageSize'] = 5
+
+    if request.method == "POST":
+        if request.POST['operation'] == "next":
+            params['pageNo'] = int(request.POST['pageNo'])
+            params['pageNo'] += 1
+        if request.POST['operation'] == "previous":
+            params['pageNo'] = int(request.POST['pageNo'])
+            params['pageNo'] -= 1
+        if request.POST['operation'] == "search":
+            params['firstName'] = request.POST['firstName']
 
     service = UserService()
     list = service.search(params);
 
-    return render(request, "UserList.html", {'list': list})
+    return render(request, "UserList.html", {'list': list, 'pageNo': params['pageNo']})
+
+
+def edit_user(request, id=0):
+    service = UserService()
+    user = service.get(id)
+    return render(request, 'User.html', {'form':user[0]})
 
 
 def logout(request):

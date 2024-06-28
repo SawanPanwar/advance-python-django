@@ -100,7 +100,7 @@ class UserService:
         if fname != "":
             sql += " and firstName like '" + fname + "%%' "
         if (pageSize > 0):
-            pageNo = pageNo * pageSize
+            pageNo = (pageNo - 1) * pageSize
             sql += " limit %s, %s"
         print('sql => ', sql)
         cursor = connection.cursor()

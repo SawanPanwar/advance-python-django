@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 {% include "Header.html" %}
-<form>
+<form method="POST">
     {% csrf_token %}
+    <table>
+        <tr>
+            <td><input type="text" name="firstName"></td>
+            <td><input type="submit" name="operation" value="search"></td>
+        </tr>
+    </table>
     <table border="1" width="100%">
         <tr>
             <th>Id</th>
@@ -17,6 +23,7 @@
             <th>Password</th>
             <th>DOB</th>
             <th>Address</th>
+            <th>Edit</th>
         </tr>
         {% for l in list %}
         <tr>
@@ -27,10 +34,23 @@
             <td align="center">{{ l.password }}</td>
             <td align="center">{{ l.dob }}</td>
             <td align="center">{{ l.address }}</td>
+            <td align="center"><a href="/ORS/edit/{{l.id}}/">edit</a></td>
         </tr>
         {% endfor %}
-
     </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 25%">
+                <input type="submit" name="operation" value="previous" {% if pageNo == 1 %} disabled {% endif %}>
+            </td>
+            <td style="width: 75%"></td>
+            <td style="width: 25%">
+                <input type="submit" name="operation" value="next" {% if list|length < 5 %} disabled {% endif %}>
+            </td>
+        </tr>
+    </table>
+    <td><input type="hidden" name="pageNo" value="{{pageNo}}"></td>
 </form>
 </body>
 </html>

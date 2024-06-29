@@ -67,10 +67,16 @@ def save_user(request):
         params['loginId'] = request.POST.get('loginId')
         params['password'] = request.POST.get('password')
         params['dob'] = request.POST.get('dob')
+        print('save dov => ', request.POST.get('dob'))
         params['address'] = request.POST.get('address')
+        params['id'] = request.POST.get('id')
         service = UserService()
-        service.add(params)
-        message = 'User Added Successfully'
+        if request.POST["id"] != "":
+            service.update(params)
+            message = 'User Updated Successfully'
+        else:
+            service.add(params)
+            message = 'User Added Successfully'
     return render(request, 'User.html', {'message': message})
 
 
@@ -98,7 +104,14 @@ def user_list(request):
 def edit_user(request, id=0):
     service = UserService()
     user = service.get(id)
-    return render(request, 'User.html', {'form':user[0]})
+    user[0]['dob'] = user[0]['dob'].strftime('%Y-%m-%d')
+    return render(request, 'User.html', {'form': user[0]})
+
+
+def delete_user(request, id=0):
+    service = UserService()
+    service.delete(id)
+    return redirect("/ORS/list/")
 
 
 def logout(request):

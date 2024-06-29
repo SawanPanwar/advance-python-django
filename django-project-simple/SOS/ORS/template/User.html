@@ -6,12 +6,13 @@
 </head>
 <body>
 {% include "Header.html" %}
-<form method="POST">
+<form action="/ORS/save/" method="POST">
     {% csrf_token %}
     <div align="center">
         <h1>Add User</h1>
         {{message}}
         <table>
+            <input type="hidden" name="id" value="{{form.id}}">
             <tr>
                 <th>First Name:</th>
                 <td><input type="text" name="firstName" value="{{form.firstName}}"></td>

@@ -23,7 +23,7 @@
             <th>Password</th>
             <th>DOB</th>
             <th>Address</th>
-            <th>Edit</th>
+            <th>Edit | Delete</th>
         </tr>
         {% for l in list %}
         <tr>
@@ -34,7 +34,8 @@
             <td align="center">{{ l.password }}</td>
             <td align="center">{{ l.dob }}</td>
             <td align="center">{{ l.address }}</td>
-            <td align="center"><a href="/ORS/edit/{{l.id}}/">edit</a></td>
+            <td align="center"><a href="/ORS/edit/{{l.id}}/">edit</a> | <a href="/ORS/delete/{{l.id}}/">delete</a></td>
+            </td>
         </tr>
         {% endfor %}
     </table>

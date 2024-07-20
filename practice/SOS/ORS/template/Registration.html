@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post">
+    {% include './Header.html' %}
+    {% csrf_token %}
+    <br> <br>
+    <div align="center">
+        <h1 align="center" style="margin-bottom: -15; color: navy">
+            {% if form.id > 0 %}
+            Update User
+            {% else %}
+            Add User
+            {% endif %}
+        </h1>
+        <table>
+            <tr>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="hidden" name="id" value="{{form.id}}"></td>
+            </tr>
+            <tr>
+                <th>First Name :</th>
+                <td><input type="text" name="firstName" value="{{form.firstName}}"></td>
+            </tr>
+            <tr>
+                <th>Last Name :</th>
+                <td><input type="text" name="lastName" value="{{form.lastName}}"></td>
+            </tr>
+            <tr>
+                <th>Login ID :</th>
+                <td><input type="text" name="loginId" value="{{form.loginId}}"></td>
+            </tr>
+            <tr>
+                <th>Password :</th>
+                <td><input type="text" name="password" value="{{form.password}}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="operation" value="Register"></td>
+            </tr>
+        </table>
+    </div>
+    <br> <br> <br> <br> <br> <br> <br>
+    <br> <br> <br> <br>
+</form>
+</body>
+</html>

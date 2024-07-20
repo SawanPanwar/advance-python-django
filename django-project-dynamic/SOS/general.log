@@ -1,0 +1,55 @@
+django.utils.autoreload  INFO  2024-07-12 11:24:34,710  autoreload 13876  7868  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:25:13,270  autoreload 13876  7868  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:25:14,929  autoreload 4752  4828  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:25:31,309  autoreload 4752  4828  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:25:32,673  autoreload 1808  7064  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:25:52,337  autoreload 1808  7064  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:25:53,336  autoreload 13552  14264  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:26:14,956  autoreload 13552  14264  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:26:17,034  autoreload 7856  6292  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:26:50,329  autoreload 7856  6292  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:26:51,319  autoreload 8368  1880  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:27:38,588  autoreload 8368  1880  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\urls.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:27:40,308  autoreload 6196  5724  Watching for file changes with StatReloader
+ORS.views  DEBUG  2024-07-12 11:27:47,833  views 6196  5520  debug message
+ORS.views  INFO  2024-07-12 11:27:47,833  views 6196  5520  info message
+ORS.views  WARNING  2024-07-12 11:27:47,833  views 6196  5520  warning message
+ORS.views  ERROR  2024-07-12 11:27:47,833  views 6196  5520  error message
+ORS.views  CRITICAL  2024-07-12 11:27:47,833  views 6196  5520  fatal message
+django.utils.autoreload  INFO  2024-07-12 11:27:59,349  autoreload 6196  5724  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:28:00,906  autoreload 12924  14084  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:29:01,745  autoreload 12924  14084  D:\Rays\Python Workspace\django-project-dynamic\SOS\SOS\settings.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:29:02,995  autoreload 8768  2136  Watching for file changes with StatReloader
+ORS.views  INFO  2024-07-12 11:29:06,983  views 8768  10392  info message
+ORS.views  WARNING  2024-07-12 11:29:06,984  views 8768  10392  warning message
+ORS.views  ERROR  2024-07-12 11:29:06,984  views 8768  10392  error message
+ORS.views  CRITICAL  2024-07-12 11:29:06,984  views 8768  10392  fatal message
+django.utils.autoreload  INFO  2024-07-12 11:30:14,863  autoreload 8768  2136  D:\Rays\Python Workspace\django-project-dynamic\SOS\SOS\settings.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:30:16,183  autoreload 13404  6896  Watching for file changes with StatReloader
+ORS.views  WARNING  2024-07-12 11:30:18,444  views 13404  13892  warning message
+ORS.views  ERROR  2024-07-12 11:30:18,445  views 13404  13892  error message
+ORS.views  CRITICAL  2024-07-12 11:30:18,445  views 13404  13892  fatal message
+django.utils.autoreload  INFO  2024-07-12 11:31:08,114  autoreload 13404  6896  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:31:09,803  autoreload 12576  4744  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:31:16,547  autoreload 12576  4744  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:31:17,916  autoreload 9824  9308  Watching for file changes with StatReloader
+ORS.views  WARNING  2024-07-12 11:32:25,444  views 9824  13040  warning message
+ORS.views  ERROR  2024-07-12 11:32:25,445  views 9824  13040  error message
+ORS.views  CRITICAL  2024-07-12 11:32:25,446  views 9824  13040  fatal message
+django.utils.autoreload  INFO  2024-07-12 11:32:48,137  autoreload 9824  9308  D:\Rays\Python Workspace\django-project-dynamic\SOS\SOS\settings.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:32:49,447  autoreload 9832  9952  Watching for file changes with StatReloader
+ORS.views  INFO  2024-07-12 11:32:52,667  views 9832  11200  division by zero
+ORS.views  DEBUG  2024-07-12 11:32:52,667  views 9832  11200  debug message
+ORS.views  INFO  2024-07-12 11:32:52,667  views 9832  11200  info message
+ORS.views  WARNING  2024-07-12 11:32:52,667  views 9832  11200  warning message
+ORS.views  ERROR  2024-07-12 11:32:52,667  views 9832  11200  error message
+ORS.views  CRITICAL  2024-07-12 11:32:52,667  views 9832  11200  fatal message
+django.utils.autoreload  INFO  2024-07-12 11:34:00,682  autoreload 7012  9476  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:36:09,928  autoreload 7012  9476  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:36:12,005  autoreload 2820  9332  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:36:15,705  autoreload 2820  9332  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:36:16,796  autoreload 7968  13516  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:36:18,673  autoreload 7968  13516  D:\Rays\Python Workspace\django-project-dynamic\SOS\ORS\views.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:36:19,800  autoreload 8412  9256  Watching for file changes with StatReloader
+django.utils.autoreload  INFO  2024-07-12 11:37:17,356  autoreload 8412  9256  D:\Rays\Python Workspace\django-project-dynamic\SOS\SOS\settings.py changed, reloading.
+django.utils.autoreload  INFO  2024-07-12 11:37:19,137  autoreload 12476  1908  Watching for file changes with StatReloader

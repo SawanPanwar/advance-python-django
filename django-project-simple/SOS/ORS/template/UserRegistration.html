@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>User Register</h1>
+        <table>
+            <tr>
+                <th>FirstName:</th>
+                <td><input type="text" name="firstName"></td>
+                <td>
+                    {% if inputerror.firstName %}
+                    <font color="red">{{ inputerror.firstName }}</font>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>LastName:</th>
+                <td><input type="text" name="lastName"></td>
+                <td>
+                    {% if inputerror.lastName %}
+                    <font color="red">{{ inputerror.lastName }}</font>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Login ID:</th>
+                <td><input type="text" name="loginId"></td>
+                <td>
+                    {% if inputerror.loginId %}
+                    <font color="red">{{ inputerror.loginId }}</font>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input type="text" name="password"></td>
+                <td>
+                    {% if inputerror.password %}
+                    <font color="red">{{ inputerror.password }}</font>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>DOB:</th>
+                <td><input type="date" name="dob" style="width: 98%;"></td>
+                <td>
+                    {% if inputerror.dob %}
+                    <font color="red">{{ inputerror.dob }}</font>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td><input type="text" name="address"></td>
+                <td>
+                    {% if inputerror.address %}
+                    <font color="red">{{ inputerror.address }}</font>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="signUp"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

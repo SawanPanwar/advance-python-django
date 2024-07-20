@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>Add Marksheet</h1>
+        {{message}}
+        <table>
+            <tr>
+                <th>Roll No. :</th>
+                <td><input type="text" name="rollNo" value="{{ form.rollNo }}"></td>
+            </tr>
+            <tr>
+                <th>Name:</th>
+                <td><input type="text" name="name" value="{{ form.name }}"></td>
+            </tr>
+            <tr>
+                <th>Physics:</th>
+                <td><input type="text" name="physics" value="{{ form.physics }}"></td>
+            </tr>
+            <tr>
+                <th>Chemistry:</th>
+                <td><input type="text" name="chemistry" value="{{ form.chemistry }}"></td>
+            </tr>
+            <tr>
+                <th>Maths:</th>
+                <td><input type="text" name="maths" value="{{ form.maths }}"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="save"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

@@ -11,9 +11,4 @@ urlpatterns = [
     path('edit/<int:id>/', views.edit_user),
     path('delete/<int:id>/', views.delete_user),
     path('logout/', views.logout),
-    path('create/', views.create_session),
-    path('access/', views.access_session),
-    path('destroy/', views.destroy_session),
-    path('set/', views.setCookies),
-    path('get/', views.getCookies),
 ]

@@ -1,25 +1,30 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.sessions.models import Session
+from .utility.DataValidator import DataValidator
 from .service.UserService import UserService
 
 
-def test_user_signup(request):
-    firstName = request.POST.get('firstName')
-    lastName = request.POST.get('lastName')
-    loginId = request.POST.get('loginId')
-    password = request.POST.get('password')
-    dob = request.POST.get('dob')
-    address = request.POST.get('address')
-    csrfmiddlewaretoken = request.POST.get('csrfmiddlewaretoken')
-    print(firstName)
-    print(lastName)
-    print(loginId)
-    print(password)
-    print(dob)
-    print(address)
-    print(csrfmiddlewaretoken)
-    return render(request, 'UserRegistration.html')
+def validate(request):
+    input_errors = {}
+    input_errors['error'] = False
+    if (DataValidator.isNull(request.POST["firstName"])):
+        input_errors['firstName'] = 'first name is required'
+        input_errors['error'] = True
+    if (DataValidator.isNull(request.POST["lastName"])):
+        input_errors['lastName'] = 'last name is required'
+        input_errors['error'] = True
+    if (DataValidator.isNull(request.POST["loginId"])):
+        input_errors['loginId'] = 'login id is required'
+        input_errors['error'] = True
+    if (DataValidator.isNull(request.POST["password"])):
+        input_errors['password'] = 'password is required'
+        input_errors['error'] = True
+    if (DataValidator.isNull(request.POST["dob"])):
+        input_errors['dob'] = 'dob is required'
+        input_errors['error'] = True
+    if (DataValidator.isNull(request.POST["address"])):
+        input_errors['address'] = 'address is required'
+        input_errors['error'] = True
+    return input_errors
 
 
 def welcome(request):
@@ -27,7 +32,7 @@ def welcome(request):
 
 
 def user_signup(request):
-    message = ""
+    input_errors = {}
     if request.method == "POST":
         params = {}
         params['firstName'] = request.POST.get('firstName')
@@ -36,10 +41,11 @@ def user_signup(request):
         params['password'] = request.POST.get('password')
         params['dob'] = request.POST.get('dob')
         params['address'] = request.POST.get('address')
-        service = UserService()
-        service.add(params)
-        message = "User Registered Successfully..!!"
-    return render(request, 'UserRegistration.html', {'message': message})
+        input_errors = validate(request)
+        if not input_errors['error']:
+            service = UserService()
+            service.add(params)
+    return render(request, 'UserRegistration.html', {"inputerror": input_errors})
 
 
 def user_signin(request):
@@ -52,7 +58,6 @@ def user_signin(request):
         if len(user_data) != 0:
             request.session['firstName'] = user_data[0].get('firstName')
             return redirect('/ORS/welcome')
-            # return render(request, 'Welcome.html', {'firstName': user_data[0].get('firstName')})
         else:
             message = 'login & password is invalid'
     return render(request, 'Login.html', {'message': message})
@@ -77,15 +82,6 @@ def user_save(request):
             service.update(params)
             message = 'User Updated Successfully'
     return render(request, 'User.html', {'message': message})
-
-
-def test_list(request):
-    list = [
-        {"id": 1, "firstName": "abc", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
-        {"id": 2, "firstName": "xyz", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
-        {"id": 3, "firstName": "pqr", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"}
-    ]
-    return render(request, "TestList.html", {"list": list})
 
 
 def user_list(request):
@@ -125,34 +121,3 @@ def delete_user(request, id=0):
 def logout(request):
     request.session['firstName'] = None
     return redirect('/ORS/login')
-
-
-def create_session(request):
-    request.session['name'] = 'Admin'
-    response = "<h1>Welcome To Sessions</h1><br>"
-    response += "ID : {0} <br>".format(request.session.session_key)
-    return HttpResponse(response)
-
-
-def access_session(request):
-    response = "Name : {0} <br>".format(request.session.get('name'))
-    return HttpResponse(response)
-
-
-def destroy_session(request):
-    Session.objects.all().delete()
-    return HttpResponse("Session is Destroy")
-
-
-def setCookies(request):
-    key = "name"
-    value = "abc"
-    res = HttpResponse("<h1>cookie created..!!</h1>")
-    res.set_cookie(key, value, max_age=20)
-    return res
-
-
-def getCookies(request):
-    value = request.COOKIES.get('name')
-    html = "<h3><center> value = {} </center></h3>".format(value)
-    return HttpResponse(html)

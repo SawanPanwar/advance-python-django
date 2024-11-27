@@ -34,15 +34,13 @@ class LoginCtl(BaseCtl):
         return res
 
     def submit(self, request, params={}):
-        PATH = params.get('path')
         user = self.get_service().authenticate(self.form)
         if (user is None):
             self.form['error'] = True
             self.form["messege"] = "Login ID & Password is Invalid"
             res = render(request, self.get_template(), {"form": self.form})
         else:
-            request.session["user"] = user
-            request.session['name'] = user.roleName
+            request.session["user"] = user.firstName
             res = redirect('/ORS/Welcome/')
         return res
 

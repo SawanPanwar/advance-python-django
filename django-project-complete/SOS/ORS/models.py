@@ -14,23 +14,6 @@ class User(models.Model):
     roleId = models.IntegerField()
     roleName = models.CharField(max_length=50)
 
-    def to_json(self):
-        data = {
-            'id': self.id,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'loginId': self.loginId,
-            'password': self.password,
-            'confirmPassword': self.confirmPassword,
-            'dob': self.dob,
-            'address': self.address,
-            'gender': self.gender,
-            'mobileNumber': self.mobileNumber,
-            'roleId': self.roleId,
-            'roleName': self.roleName
-        }
-        return data
-
     class Meta:
         db_table = 'sos_user'
 
@@ -38,14 +21,6 @@ class User(models.Model):
 class Role(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-
-    def to_json(self):
-        data = {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description
-        }
-        return data
 
     class Meta:
         db_table = 'sos_role'
@@ -57,17 +32,6 @@ class Marksheet(models.Model):
     physics = models.IntegerField()
     chemistry = models.IntegerField()
     maths = models.IntegerField()
-
-    def to_json(self):
-        data = {
-            'id': self.id,
-            'rollNumber': self.rollNumber,
-            'name': self.name,
-            'physics': self.physics,
-            'chemistry': self.chemistry,
-            'maths': self.maths
-        }
-        return data
 
     class Meta:
         db_table = 'sos_marksheet'

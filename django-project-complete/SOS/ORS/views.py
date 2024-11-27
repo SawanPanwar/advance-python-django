@@ -22,10 +22,13 @@ def action(request, page):
 
 
 @csrf_exempt
-def actionId(request, page="", operation="", id=0):
-    ctlName = page + "Ctl()"
-    ctlObj = eval(ctlName)
-    res = ctlObj.execute(request, {"id": id})
+def auth(request, page="", operation="", id=0):
+    if page == "Logout":
+        Session.objects.all().delete()
+        request.session['user'] = None
+        ctlName = "Login" + "Ctl()"
+        ctlObj = eval(ctlName)
+        res = ctlObj.execute(request, {"id": id, "operation": operation})
     return res
 
 

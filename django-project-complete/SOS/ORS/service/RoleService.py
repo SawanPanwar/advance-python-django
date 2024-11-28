@@ -11,7 +11,7 @@ class RoleService(BaseService):
         sql = 'select * from sos_role where 1=1'
         val = params.get('name', None)
         if (DataValidator.isNotNull(val)):
-            sql += " and name = '" + val + "' "
+            sql += " and name = '" + val + "'"
         sql += " limit %s, %s"
         cursor = connection.cursor()
         cursor.execute(sql, [pageNo, self.pageSize])

@@ -15,15 +15,15 @@ class BaseService(ABC):
 
     def search(self):
         try:
-            obj = self.get_model().objects.all()
-            return obj
+            objs = self.get_model().objects.all()
+            return objs
         except self.get_model().DoesNotExist:
             return None
 
     def preload(self):
         try:
-            obj = self.get_model().objects.all()
-            return obj
+            objs = self.get_model().objects.all()
+            return objs
         except self.get_model().DoesNotExist:
             return None
 

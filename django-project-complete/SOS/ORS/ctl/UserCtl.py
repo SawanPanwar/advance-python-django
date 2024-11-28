@@ -42,7 +42,7 @@ class UserCtl(BaseCtl):
         self.form["roleName"] = obj.roleName
 
     def form_to_model(self, obj):
-        c = RoleService().get(self.form['role_Id'])
+        c = RoleService().get(self.form['roleId'])
         pk = int(self.form['id'])
         if pk > 0:
             obj.id = pk
@@ -63,34 +63,34 @@ class UserCtl(BaseCtl):
         super().input_validation()
         inputError = self.form["inputError"]
         if (DataValidator.isNull(self.form["firstName"])):
-            inputError["firstName"] = " Name can not be null"
+            inputError["firstName"] = "First Name is required"
             self.form["error"] = True
         if (DataValidator.isNull(self.form["lastName"])):
-            inputError["lastName"] = " Last Name can not be null"
+            inputError["lastName"] = "Last Name is required"
             self.form["error"] = True
         if (DataValidator.isNull(self.form["loginId"])):
-            inputError["loginId"] = " login can not be null"
+            inputError["loginId"] = "Login ID is required"
             self.form["error"] = True
         else:
             if (DataValidator.isemail(self.form['loginId'])):
-                inputError['loginId'] = "login ID must be like student@gmail.com"
+                inputError['loginId'] = "Login ID must be like student@gmail.com"
                 self.form['error'] = True
 
         if (DataValidator.isNull(self.form["password"])):
-            inputError["password"] = "Password can not be null"
+            inputError["password"] = "Password is required"
             self.form["error"] = True
 
         if (DataValidator.isNull(self.form["confirmPassword"])):
-            inputError["confirmPassword"] = "Confirm Password can not be null"
+            inputError["confirmPassword"] = "Confirm Password is required"
             self.form["error"] = True
 
         if (DataValidator.isNotNull(self.form['confirmPassword'])):
             if (self.form['password'] != self.form['confirmPassword']):
-                inputError['confirmPassword'] = "Password and Confirm Password are not same"
+                inputError['confirmPassword'] = "Password & Confirm Password are not same"
                 self.form["error"] = True
 
         if (DataValidator.isNull(self.form["dob"])):
-            inputError["dob"] = "DOB can not be null"
+            inputError["dob"] = "DOB is required"
             self.form["error"] = True
         else:
             if (DataValidator.isDate(self.form['dob'])):
@@ -98,20 +98,20 @@ class UserCtl(BaseCtl):
                 self.form['error'] = True
 
         if (DataValidator.isNull(self.form['gender'])):
-            inputError['gender'] = "Gender can not be null"
+            inputError['gender'] = "Gender is required"
             self.form['error'] = True
         if (DataValidator.isNull(self.form["address"])):
-            inputError["address"] = "Address can not be null"
+            inputError["address"] = "Address is required"
             self.form["error"] = True
         if (DataValidator.isNull(self.form["mobileNumber"])):
-            inputError["mobileNumber"] = "MobileNumber can not be null"
+            inputError["mobileNumber"] = "Mobile Number is required"
             self.form["error"] = True
         else:
             if (DataValidator.ismobilecheck(self.form['mobileNumber'])):
                 inputError['mobileNumber'] = "Mobile No should start with 6,7,8,9"
                 self.form['error'] = True
         if (DataValidator.isNull(self.form['roleId'])):
-            inputError['roleId'] = "Role can not be null"
+            inputError['roleId'] = "Role Name is required"
             self.form['error'] = True
         else:
             o = RoleService().find_by_unique_key(self.form['roleId'])
@@ -128,7 +128,7 @@ class UserCtl(BaseCtl):
     def submit(self, request, params={}):
         if (params['id'] > 0):
             pk = params['id']
-            dup = self.get_service().get_model().objects.exclude(id=pk).filter(login_id=self.form['loginId'])
+            dup = self.get_service().get_model().objects.exclude(id=pk).filter(loginId=self.form['loginId'])
             if dup.count() > 0:
                 self.form['error'] = True
                 self.form['messege'] = "Login Id already exists"
@@ -142,7 +142,7 @@ class UserCtl(BaseCtl):
                 self.form['messege'] = "DATA HAS BEEN UPDATED SUCCESSFULLY"
                 res = render(request, self.get_template(), {'form': self.form, 'roleList': self.preloadData})
         else:
-            duplicate = self.get_service().get_model().objects.filter(login_id=self.form['loginId'])
+            duplicate = self.get_service().get_model().objects.filter(loginId=self.form['loginId'])
             if duplicate.count() > 0:
                 self.form['error'] = True
                 self.form['messege'] = "Login Id already exists"

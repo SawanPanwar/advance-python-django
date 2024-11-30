@@ -13,3 +13,17 @@ class SimpleMiddleware:
         res = self.get_response(request)
         # return HttpResponse("<center><h1>Welcome to Middleware</h1></center>")
         return res
+
+
+class FrontCtlMiddleware:
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+
+        if request.path_info in ['/ORS/signin/', '/ORS/signup/', '/ORS/welcome/', '/ORS/logout/']:
+            return self.get_response(request)
+
+        if request.session['firstName'] == None:
+            message = 'Session expired... plz login again..!!'

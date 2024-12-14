@@ -14,6 +14,7 @@ class LoginCtl(BaseCtl):
         super().input_validation()
 
         inputError = self.form["inputError"]
+
         if (DataValidator.isNull(self.form["loginId"])):
             inputError["loginId"] = "Login ID is required"
             self.form["error"] = True
@@ -29,7 +30,6 @@ class LoginCtl(BaseCtl):
         return self.form["error"]
 
     def display(self, request, params={}):
-        self.form['out'] = params.get("out")
         res = render(request, self.get_template(), {'form': self.form})
         return res
 

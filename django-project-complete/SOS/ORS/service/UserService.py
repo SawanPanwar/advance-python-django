@@ -6,13 +6,17 @@ from django.db import connection
 
 class UserService(BaseService):
     def authenticate(self, params):
-        q = self.get_model().objects.filter()
         loginId = params.get("loginId", None)
+        password = params.get("password", None)
+
+        q = self.get_model().objects.filter()
+
         if (DataValidator.isNotNull(loginId)):
             q = q.filter(loginId=loginId)
-        password = params.get("password", None)
+
         if (DataValidator.isNotNull(password)):
             q = q.filter(password=password)
+
         if (q.count() == 1):
             return q[0]
         else:
@@ -21,9 +25,9 @@ class UserService(BaseService):
     def search(self, params):
         pageNo = (params["pageNo"] - 1) * self.pageSize
         sql = "select * from sos_user where 1=1"
-        val = params.get("login_id", None)
+        val = params.get("firstName", None)
         if DataValidator.isNotNull(val):
-            sql += " and loginId = '" + val + "'"
+            sql += " and firstName = '" + val + "'"
         sql += " limit %s, %s"
         cursor = connection.cursor()
         print("--------", sql, pageNo, self.pageSize)

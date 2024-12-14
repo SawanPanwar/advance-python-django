@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 
@@ -10,8 +9,6 @@ from .ctl.UserCtl import UserCtl
 from .ctl.UserListCtl import UserListCtl
 from .ctl.RoleCtl import RoleCtl
 from .ctl.RoleListCtl import RoleListCtl
-from .ctl.MarksheetCtl import MarksheetCtl
-from .ctl.MarksheetListCtl import MarksheetListCtl
 
 
 @csrf_exempt

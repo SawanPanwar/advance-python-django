@@ -12,9 +12,3 @@ class RoleForm(forms.ModelForm):
     class Meta:
         model = Role
         fields = "__all__"
-
-
-class MarksheetForm(forms.ModelForm):
-    class Meta:
-        model = Marksheet
-        fields = "__all__"

@@ -8,11 +8,7 @@ from ..service.RoleService import RoleService
 
 
 class RegistrationCtl(BaseCtl):
-    def preload(self, request):
-        self.page_list = RoleService().preload()
-        self.preloadData = self.page_list
 
-    # Populate Form from Http Request
     def request_to_form(self, requestForm):
         self.form['id'] = requestForm['id']
         self.form['firstName'] = requestForm['firstName']
@@ -27,7 +23,6 @@ class RegistrationCtl(BaseCtl):
         self.form['roleId'] = 2
         self.form['roleName'] = 'Student'
 
-    # Populate Form from model
     def model_to_form(self, obj):
         if obj is None:
             return
@@ -44,7 +39,6 @@ class RegistrationCtl(BaseCtl):
         self.form["roleId"] = 2
         self.form["roleName"] = "Student"
 
-    # Convert Form into Module
     def form_to_model(self, obj):
         pk = int(self.form['id'])
         if pk > 0:
@@ -60,10 +54,8 @@ class RegistrationCtl(BaseCtl):
         obj.mobileNumber = self.form['mobileNumber']
         obj.roleId = self.form['roleId']
         obj.roleName = self.form['roleName']
-
         return obj
 
-    # Validate Form
     def input_validation(self):
         super().input_validation()
         inputError = self.form['inputError']
@@ -126,7 +118,7 @@ class RegistrationCtl(BaseCtl):
         if params.get('id', 0) > 0:
             r = self.get_service().get(params['id'])
             self.model_to_form(r)
-        res = render(request, self.get_template(), {"form": self.form, "roleList": self.preloadData})
+        res = render(request, self.get_template(), {"form": self.form})
         return res
 
     def submit(self, request, params={}):

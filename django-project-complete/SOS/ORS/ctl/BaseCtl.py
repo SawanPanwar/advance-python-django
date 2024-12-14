@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 
 class BaseCtl(ABC):
     preload_data = {}
-
     page_list = {}
 
     def __init__(self):
@@ -39,9 +38,6 @@ class BaseCtl(ABC):
             message = "Request is not supported"
             return HttpResponse(message)
 
-    def deleteRecord(self, request, params={}):
-        pass
-
     @abstractmethod
     def display(self, request, params={}):
         pass
@@ -53,10 +49,10 @@ class BaseCtl(ABC):
     def request_to_form(self, requestForm):
         pass
 
-    def model_to_form(self, obj):
+    def form_to_model(self, obj):
         pass
 
-    def form_to_model(self, obj):
+    def model_to_form(self, obj):
         pass
 
     def input_validation(self):

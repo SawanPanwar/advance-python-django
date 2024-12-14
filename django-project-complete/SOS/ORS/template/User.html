@@ -15,53 +15,53 @@
             <input type="hidden" name="id" value="{{form.id}}">
             <tr>
                 <th>FirstName:</th>
-                <td><input type="text" name="firstName"></td>
+                <td><input type="text" name="firstName" value="{{form.firstName}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.firstName }}</td>
             </tr>
             <tr>
                 <th>LastName:</th>
-                <td><input type="text" name="lastName"></td>
+                <td><input type="text" name="lastName" value="{{form.lastName}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.lastName }}</td>
             </tr>
             <tr>
                 <th>Login ID:</th>
-                <td><input type="text" name="loginId"></td>
+                <td><input type="text" name="loginId" value="{{form.loginId}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.loginId }}</td>
             </tr>
             <tr>
                 <th>Password:</th>
-                <td><input type="text" name="password"></td>
+                <td><input type="text" name="password" value="{{form.password}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.password }}</td>
             </tr>
             <tr>
                 <th>Confirm:</th>
-                <td><input type="text" name="confirmPassword"></td>
+                <td><input type="text" name="confirmPassword" value="{{form.confirmPassword}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.confirmPassword }}</td>
             </tr>
             <tr>
                 <th>DOB:</th>
-                <td><input type="date" name="dob" style="width: 98%;"></td>
+                <td><input type="date" name="dob" value="{{form.dob}}" style="width: 98%;"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.dob }}</td>
             </tr>
             <tr>
                 <th>Address:</th>
-                <td><input type="text" name="address"></td>
+                <td><input type="text" name="address" value="{{form.address}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.address }}</td>
             </tr>
             <tr>
                 <th>Gender:</th>
-                <td><input type="text" name="gender"></td>
+                <td><input type="text" name="gender" value="{{form.gender}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.gender }}</td>
             </tr>
             <tr>
                 <th>Mobile:</th>
-                <td><input type="text" name="mobileNumber"></td>
+                <td><input type="text" name="mobileNumber" value="{{form.mobileNumber}}"></td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.mobileNumber }}</td>
             </tr>
             <tr>
                 <th>Role:</th>
                 <td>
-                    <select name="roleId"  style="width: 100%;" >
+                    <select name="roleId" value="{{form.roleId}}" style="width: 100%;">
                         <option value="">{{'--------Select Role---------' }}</option>
                         {% for role in roleList %}
                         <option value="{{ role.id }}">{{ role.name }}</option>

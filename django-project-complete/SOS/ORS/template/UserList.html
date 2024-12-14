@@ -10,6 +10,7 @@
     {% csrf_token %}
     <div align="center">
         <h1>User List</h1>
+        <h3><font color="red">{{ form.message }}</font></h3>
     </div>
     <div align="center">
         <table>
@@ -23,6 +24,7 @@
     <br>
     <table border="1%" width="100%">
         <tr>
+            <th>Select</th>
             <th>S. No.</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -36,6 +38,7 @@
         </tr>
         {% for l in pageList %}
         <tr>
+            <td align="center"><input type="checkbox" name="ids" value="{{ l.id }}"></td>
             <td align="center">{{ l.id }}</td>
             <td align="center">{{ l.firstName }}</td>
             <td align="center">{{ l.lastName }}</td>
@@ -45,18 +48,22 @@
             <td align="center">{{ l.address }}</td>
             <td align="center">{{ l.gender }}</td>
             <td align="center">{{ l.mobileNumber }}</td>
-            <td align="center"><a href="/ORS/edit/{{ l.id }}">edit</a></td>
+            <td align="center"><a href="/ORS/User/Edit/{{ e.id }}">edit</a></td>
         </tr>
         {% endfor %}
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td style="width: 25%">
+            <td style="width: 30%">
                 <input type="submit" name="operation" value="previous" {% if form.pageNo == 1 %} disabled {% endif %}>
             </td>
-            <td style="width: 75%"></td>
-            <td>
+            <td style="width: 30%">
+                <button><a href="/ORS/User">add</a></button>
+            </td>
+            <td style="width: 25%"><input type="submit" name="operation"
+                                          value="delete"></td>
+            <td style="text-align: right;">
                 <input type="submit" name="operation" value="next" {% if pageList|length < 5 %} disabled {% endif %}>
             </td>
         </tr>

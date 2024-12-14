@@ -25,22 +25,6 @@ class UserCtl(BaseCtl):
         self.form["mobileNumber"] = requestForm["mobileNumber"]
         self.form["roleId"] = requestForm["roleId"]
 
-    def model_to_form(self, obj):
-        if (obj == None):
-            return
-        self.form["id"] = obj.id
-        self.form["firstName"] = obj.firstName
-        self.form["lastName"] = obj.lastName
-        self.form["loginId"] = obj.loginId
-        self.form["password"] = obj.password
-        self.form["confirmPassword"] = obj.confirmPassword
-        self.form["dob"] = obj.dob.strftime("%Y-%m-%d")
-        self.form["address"] = obj.address
-        self.form["gender"] = obj.gender
-        self.form["mobileNumber"] = obj.mobileNumber
-        self.form["roleId"] = obj.roleId
-        self.form["roleName"] = obj.roleName
-
     def form_to_model(self, obj):
         c = RoleService().get(self.form['roleId'])
         pk = int(self.form['id'])
@@ -58,6 +42,22 @@ class UserCtl(BaseCtl):
         obj.roleId = self.form["roleId"]
         obj.roleName = c.name
         return obj
+
+    def model_to_form(self, obj):
+        if (obj == None):
+            return
+        self.form["id"] = obj.id
+        self.form["firstName"] = obj.firstName
+        self.form["lastName"] = obj.lastName
+        self.form["loginId"] = obj.loginId
+        self.form["password"] = obj.password
+        self.form["confirmPassword"] = obj.confirmPassword
+        self.form["dob"] = obj.dob.strftime("%Y-%m-%d")
+        self.form["address"] = obj.address
+        self.form["gender"] = obj.gender
+        self.form["mobileNumber"] = obj.mobileNumber
+        self.form["roleId"] = obj.roleId
+        self.form["roleName"] = obj.roleName
 
     def input_validation(self):
         super().input_validation()

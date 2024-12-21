@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>Login</h1>
+        <h3><font color="red">{{ form.message }}</font></h3>
+        <table>
+            <tr>
+                <th>Login ID:</th>
+                <td><input type="text" name="loginId"></td>
+                <td style="position: fixed; color: red;"> {{ form.inputError.loginId }}</td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input type="text" name="password"></td>
+                <td style="position: fixed; color: red;"> {{ form.inputError.password }}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="signIn">
+                    <button><a href="/ORS/Registration">signUp</a></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

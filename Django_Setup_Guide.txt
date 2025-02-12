@@ -1,0 +1,10 @@
+01. Create a New Project Folder
+02. Open Terminal as CMD (Default)
+03. Install Django: pip install django
+04. Create a Django Project Named "SOS": django-admin startproject SOS
+05. A "SOS" Project is Created (It contains a default app and manage.py)
+06. Navigate into the "SOS" Project Directory: cd SOS
+07. Run the Django Project: py manage.py runserver
+08. Stop the Django Project: ctrl + c
+09. Create a Django App Named "ORS": py manage.py startapp ORS
+10. Now configure ORS App in SOS.settings.py in INSTALLED_APPS section

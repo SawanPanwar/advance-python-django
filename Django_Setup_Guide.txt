@@ -8,3 +8,4 @@
 08. Stop the Django Project: ctrl + c
 09. Create a Django App Named "ORS": py manage.py startapp ORS
 10. Now configure ORS App in SOS.settings.py in INSTALLED_APPS section
+11. 

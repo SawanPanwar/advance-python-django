@@ -17,10 +17,13 @@ def test_user_signup(request):
     password = request.POST.get('password')
     dob = request.POST.get('dob')
     address = request.POST.get('address')
+    csrfmiddlewaretoken = request.POST.get('csrfmiddlewaretoken')
+
     print(firstName)
     print(lastName)
     print(loginId)
     print(password)
     print(dob)
     print(address)
+    print(csrfmiddlewaretoken)
     return render(request, 'UserRegistration.html')

@@ -47,9 +47,15 @@ def user_signin(request):
         service = UserService()
         user_data = service.auth(loginId, password)
         if len(user_data) != 0:
+            request.session['firstName'] = user_data[0].get('firstName')
             return redirect('/ORS/welcome')
+            # return render(request, 'Welcome.html', {'firstName': user_data[0].get('firstName')})
     return render(request, 'Login.html')
 
 
 def welcome(request):
     return render(request, 'Welcome.html')
+
+def logout(request):
+    request.session['firstName'] = None
+    return redirect('/ORS/signin')

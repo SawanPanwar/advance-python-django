@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>User List</h1>
+    </div>
+    <br>
+    <table border="5%" width="100%">
+        <tr>
+            <th>S. No.</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>LoginId</th>
+            <th>Password</th>
+            <th>DOB</th>
+            <th>Address</th>
+            <th>Edit | Delete</th>
+        </tr>
+        {% for l in list %}
+        <tr>
+            <td align="center">{{ l.id }}</td>
+            <td align="center">{{ l.firstName }}</td>
+            <td align="center">{{ l.lastName }}</td>
+            <td align="center">{{ l.loginId }}</td>
+            <td align="center">{{ l.password }}</td>
+            <td align="center">{{ l.dob }}</td>
+            <td align="center">{{ l.address }}</td>
+            <td align="center"><a href="#">edit</a> | <a href="#">delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 25%">
+                <input type="submit" name="operation" value="previous" {% if pageNo == 1 %} disabled {% endif %}>
+            </td>
+            <td style="width: 75%"></td>
+            <td>
+                <input type="submit" name="operation" value="next">
+            </td>
+        </tr>
+    </table>
+    <input type="text" name="pageNo" value="{{pageNo}}">
+</form>
+</body>
+</html>

@@ -56,6 +56,34 @@ def user_signin(request):
 def welcome(request):
     return render(request, 'Welcome.html')
 
+
 def logout(request):
     request.session['firstName'] = None
     return redirect('/ORS/signin')
+
+
+def test_list(request):
+    list = [
+        {"id": 1, "firstName": "abc", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
+        {"id": 2, "firstName": "xyz", "lastName": "xyz", "email": "xyz@gmail.com", "password": "12345"},
+        {"id": 3, "firstName": "pqr", "lastName": "pqr", "email": "pqr@gmail.com", "password": "12345"}
+    ]
+    return render(request, "TestList.html", {"list": list})
+
+
+def user_list(request):
+    params = {}
+    params['pageNo'] = 1
+    params['pageSize'] = 5
+
+    if request.method == "POST":
+        if request.POST['operation'] == "next":
+            params['pageNo'] = int(request.POST['pageNo'])
+            params['pageNo'] += 1
+        if request.POST['operation'] == "previous":
+            params['pageNo'] = int(request.POST['pageNo'])
+            params['pageNo'] -= 1
+
+    service = UserService()
+    list = service.search(params)
+    return render(request, "UserList.html", {"list": list, 'pageNo': params['pageNo']})

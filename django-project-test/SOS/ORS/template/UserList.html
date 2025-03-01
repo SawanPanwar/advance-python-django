@@ -11,6 +11,15 @@
     <div align="center">
         <h1>User List</h1>
     </div>
+     <div align="center">
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td><input type="text" name="firstName" placeholder="enter first name here"></td>
+                <td><input type="submit" name="operation" value="search"></td>
+            </tr>
+        </table>
+    </div>
     <br>
     <table border="5%" width="100%">
         <tr>
@@ -32,7 +41,7 @@
             <td align="center">{{ l.password }}</td>
             <td align="center">{{ l.dob }}</td>
             <td align="center">{{ l.address }}</td>
-            <td align="center"><a href="#">edit</a> | <a href="#">delete</a>
+            <td align="center"><a href="/ORS/edit/{{ l.id }}">edit</a> | <a href="/ORS/delete/{{ l.id }}">delete</a>
             </td>
         </tr>
         {% endfor %}
@@ -45,11 +54,11 @@
             </td>
             <td style="width: 75%"></td>
             <td>
-                <input type="submit" name="operation" value="next">
+                <input type="submit" name="operation" value="next" {% if list|length < 5 %} disabled {% endif %}>
             </td>
         </tr>
     </table>
-    <input type="text" name="pageNo" value="{{pageNo}}">
+    <input type="hidden" name="pageNo" value="{{pageNo}}">
 </form>
 </body>
 </html>

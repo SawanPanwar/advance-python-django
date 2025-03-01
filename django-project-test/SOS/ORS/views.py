@@ -83,7 +83,35 @@ def user_list(request):
         if request.POST['operation'] == "previous":
             params['pageNo'] = int(request.POST['pageNo'])
             params['pageNo'] -= 1
+        if request.POST['operation'] == "search":
+            params['firstName'] = request.POST['firstName']
 
     service = UserService()
     list = service.search(params)
     return render(request, "UserList.html", {"list": list, 'pageNo': params['pageNo']})
+
+
+def delete_user(request, id=0):
+    service = UserService()
+    service.delete(id)
+    return redirect("/ORS/list/")
+
+
+def user_save(request):
+    if request.method == "POST":
+        params = {}
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+        service = UserService()
+        service.add(params)
+    return render(request, 'User.html')
+
+
+def edit_user(request, id=0):
+    service = UserService()
+    user_data = service.get(id)
+    return render(request, 'User.html', {'form': user_data[0]})

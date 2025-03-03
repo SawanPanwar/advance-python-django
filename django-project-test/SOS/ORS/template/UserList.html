@@ -11,7 +11,7 @@
     <div align="center">
         <h1>User List</h1>
     </div>
-     <div align="center">
+    <div align="center">
         <table>
             <tr>
                 <th>First Name:</th>
@@ -34,7 +34,7 @@
         </tr>
         {% for l in list %}
         <tr>
-            <td align="center">{{ l.id }}</td>
+            <td align="center">{{ index|add:forloop.counter }}</td>
             <td align="center">{{ l.firstName }}</td>
             <td align="center">{{ l.lastName }}</td>
             <td align="center">{{ l.loginId }}</td>

@@ -8,7 +8,7 @@
 {% if request.session.firstName == None %}
 <h3>Hi, Guest</h3>
 <a href="/ORS/welcome/"><b>Welcome</b></a> |
-<a href="/ORS/login/"><b>Login</b></a>
+<a href="/ORS/signin/"><b>Login</b></a>
 {% else %}
 <h3>Hi, {{request.session.firstName}}</h3>
 <a href="/ORS/save/"><b>Add User</b></a> |

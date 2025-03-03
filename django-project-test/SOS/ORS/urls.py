@@ -15,4 +15,7 @@ urlpatterns = [
     path('delete/<int:id>/', views.delete_user),
     path('save/', views.user_save),
     path('edit/<int:id>/', views.edit_user),
+    path('create/', views.create_session),
+    path('access/', views.access_session),
+    path('destroy/', views.destroy_session),
 ]

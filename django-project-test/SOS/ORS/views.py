@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .service.UserService import UserService
+from django.contrib.sessions.models import Session
 
 
 def test_ors(request):
@@ -88,7 +89,8 @@ def user_list(request):
 
     service = UserService()
     list = service.search(params)
-    return render(request, "UserList.html", {"list": list, 'pageNo': params['pageNo']})
+    index = (params['pageNo'] - 1) * 5
+    return render(request, "UserList.html", {"list": list, 'pageNo': params['pageNo'], 'index': index})
 
 
 def delete_user(request, id=0):
@@ -107,11 +109,33 @@ def user_save(request):
         params['dob'] = request.POST.get('dob')
         params['address'] = request.POST.get('address')
         service = UserService()
-        service.add(params)
+        if request.POST['operation'] == "save":
+            service.add(params)
+        if request.POST['operation'] == "update":
+            params['id'] = request.POST.get('id')
+            service.update(params)
     return render(request, 'User.html')
 
 
 def edit_user(request, id=0):
     service = UserService()
     user_data = service.get(id)
+    user_data[0]['dob'] = user_data[0]['dob'].strftime('%Y-%m-%d')
     return render(request, 'User.html', {'form': user_data[0]})
+
+
+def create_session(request):
+    request.session['name'] = 'Admin'
+    response = "<h1>Welcome To Sessions</h1><br>"
+    response += "ID : {0} <br>".format(request.session.session_key)
+    return HttpResponse(response)
+
+
+def access_session(request):
+    response = "Name : {0} <br>".format(request.session.get('name'))
+    return HttpResponse(response)
+
+
+def destroy_session(request):
+    Session.objects.all().delete()
+    return HttpResponse("Session is Destroy")

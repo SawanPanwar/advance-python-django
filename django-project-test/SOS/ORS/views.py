@@ -139,3 +139,17 @@ def access_session(request):
 def destroy_session(request):
     Session.objects.all().delete()
     return HttpResponse("Session is Destroy")
+
+
+def setCookies(request):
+    key = "name"
+    value = "abc"
+    res = HttpResponse("<h1>cookie created..!!</h1>")
+    res.set_cookie(key, value, max_age=20)
+    return res
+
+
+def getCookies(request):
+    value = request.COOKIES.get('name')
+    html = "<h3><center> value = {} </center></h3>".format(value)
+    return HttpResponse(html)

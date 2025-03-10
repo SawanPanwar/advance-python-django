@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 
 class SimpleMiddleware:
@@ -22,8 +23,12 @@ class FrontCtlMiddleware:
 
     def __call__(self, request):
 
-        if request.path_info in ['/ORS/signin/', '/ORS/signup/', '/ORS/welcome/', '/ORS/logout/']:
+        if request.path_info in ['/', '/ORS/signin/', '/ORS/signup/', '/ORS/welcome/', '/ORS/logout/']:
             return self.get_response(request)
 
         if request.session['firstName'] == None:
             message = 'Session expired... plz login again..!!'
+            # return redirect('/ORS/signin/')
+            return render(request, 'Login.html', {'message': message})
+
+        return self.get_response(request)

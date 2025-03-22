@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+{% include "Header.html" %}
 <form method="POST">
     {% csrf_token %}
     <div align="center">
@@ -22,7 +23,7 @@
             <tr>
                 <th></th>
                 <td><input type="submit" value="signIn">
-                    <button><a href="/ORS/signUp">signUp</a></button>
+                    <button><a href="/ORS/signup">signUp</a></button>
                 </td>
             </tr>
         </table>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .service.UserService import UserService
 from django.http import HttpResponse
 
 
@@ -31,6 +31,16 @@ def welcome(request):
 
 
 def user_signup(request):
+    if request.method == "POST":
+        params = {}
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+        service = UserService()
+        service.add(params)
     return render(request, 'UserRegistration.html')
 
 

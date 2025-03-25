@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .service.UserService import UserService
 from django.http import HttpResponse
 
@@ -45,4 +45,18 @@ def user_signup(request):
 
 
 def user_signin(request):
+    if request.method == "POST":
+        loginId = request.POST.get('loginId')
+        password = request.POST.get('password')
+        service = UserService()
+        user_data = service.auth(loginId, password)
+        if len(user_data) != 0:
+            # firstName = user_data[0].get('firstName')
+            # return render(request, 'Welcome.html', {'firstName': firstName})
+            request.session['firstName'] = user_data[0].get('firstName')
+            return redirect('/ORS/welcome')
     return render(request, 'Login.html')
+
+def logout(request):
+    request.session['firstName'] = None
+    return redirect('/ORS/signin')

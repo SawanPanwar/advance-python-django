@@ -51,11 +51,7 @@
             <tr>
                 <th>Gender:</th>
                 <td>
-                    <select style="width: 170px;text-align-last: center;" name='gender'>
-                        <option selected value=''>----------Select----------</option>
-                        <option value='Male'>Male</option>
-                        <option value='Female'>Female</option>
-                    </select>
+                    {{ form.preload.gender|safe }}
                 </td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.gender }}</td>
             </tr>

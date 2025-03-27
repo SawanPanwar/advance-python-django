@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'js/checkbox.js' %}"></script>
 </head>
 <body>
 {% if request.session.user == None %}
@@ -13,7 +16,7 @@
 <h3>Hi, {{request.session.user}}</h3>
 <a href="/ORS/User/"><b>Add User</b></a> |
 <a href="/ORS/UserList/"><b>User List</b></a> |
-<a href="/ORS/auth/Logout/"><b>Logout</b></a>
+<a href="/ORS/Logout/"><b>Logout</b></a>
 {% endif %}
 <hr>
 </body>

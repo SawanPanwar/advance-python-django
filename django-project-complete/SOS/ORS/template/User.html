@@ -6,11 +6,11 @@
 </head>
 <body>
 {% include "Header.html" %}
-<form method="POST">
+<form action="/ORS/User/" method="POST">
     {% csrf_token %}
     <div align="center">
         <h1>Add User</h1>
-        <h3><font color="green">{{ message }}</font></h3>
+        <h3><font color="green">{{ form.message }}</font></h3>
         <table>
             <input type="hidden" name="id" value="{{form.id}}">
             <tr>
@@ -51,11 +51,7 @@
             <tr>
                 <th>Gender:</th>
                 <td>
-                    <select style="width: 170px;text-align-last: center;" name='gender' value="{{form.gender}}">
-                        <option selected value=''>----------Select----------</option>
-                        <option value='Male'>Male</option>
-                        <option value='Female'>Female</option>
-                    </select>
+                    {{ form.preload.gender|safe }}
                 </td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.gender }}</td>
             </tr>
@@ -67,7 +63,7 @@
             <tr>
                 <th>Role:</th>
                 <td>
-                    {{ role_preload|safe }}
+                    {{ form.preload.role|safe }}
                 </td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.roleId }}</td>
             </tr>

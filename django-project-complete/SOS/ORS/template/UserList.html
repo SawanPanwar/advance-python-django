@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>User List</h1>
+        <h3><font color="red">{{ form.message }}</font></h3>
+    </div>
+    <div align="center">
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td><input type="text" name="firstName" placeholder="enter first name here"></td>
+                <td><input type="submit" name="operation" value="search"></td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <table border="1%" width="100%">
+        <tr>
+            <th><input type="checkbox" id="selectall"></th>
+            <th>S. No.</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+            <th>DOB</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Edit</th>
+        </tr>
+        {% for l in pageList %}
+        <tr>
+            <td align="center"><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
+            <td align="center">{{ l.id }}</td>
+            <td align="center">{{ l.firstName }}</td>
+            <td align="center">{{ l.lastName }}</td>
+            <td align="center">{{ l.loginId }}</td>
+            <td align="center">{{ l.dob }}</td>
+            <td align="center">{{ l.roleName }}</td>
+            <td align="center">{{ l.address }}</td>
+            <td align="center">{{ l.gender }}</td>
+            <td align="center">{{ l.mobileNumber }}</td>
+            <td align="center"><a href="/ORS/User/Edit/{{ l.id }}">edit</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 30%">
+                <input type="submit" name="operation" value="previous" {% if form.pageNo == 1 %} disabled {% endif %}>
+            </td>
+            <td style="width: 30%">
+                <input type="submit" name="operation" value="new">
+            </td>
+            <td style="width: 25%"><input type="submit" name="operation"
+                                          value="delete"></td>
+            <td style="text-align: right;">
+                <input type="submit" name="operation" value="next" {% if pageList|length < 5 %} disabled {% endif %}>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

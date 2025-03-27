@@ -3,6 +3,7 @@ from ..utility.DataValidator import DataValidator
 from .BaseService import BaseService
 from django.db import connection
 
+
 class UserService(BaseService):
     def authenticate(self, params):
         loginId = params.get("loginId", None)
@@ -22,15 +23,14 @@ class UserService(BaseService):
             return None
 
     def search(self, params):
-        pageNo = (params["pageNo"] - 1) * self.pageSize
+        pageNo = ((params["pageNo"] - 1) * self.pageSize)
         sql = "select * from sos_user where 1=1"
         val = params.get("firstName", None)
         if DataValidator.isNotNull(val):
-            sql += " and firstName = '" + val + "'"
+            sql += " and firstName like '" + val + "%%'"
         sql += " limit %s, %s"
         cursor = connection.cursor()
         print("--------", sql, pageNo, self.pageSize)
-        params['index'] = ((params['pageNo'] - 1) * self.pageSize) + 1
         cursor.execute(sql, [pageNo, self.pageSize])
         result = cursor.fetchall()
         columnName = ("id", "firstName", "lastName", "loginId", "password", "confirmPassword",

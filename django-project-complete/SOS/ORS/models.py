@@ -29,7 +29,7 @@ class Role(models.Model):
     description = models.CharField(max_length=500)
 
     def get_key(self):
-        return self.id
+        return str(self.id)
 
     def get_value(self):
         return self.name

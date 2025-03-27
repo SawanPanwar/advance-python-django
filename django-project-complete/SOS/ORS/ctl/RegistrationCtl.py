@@ -82,9 +82,11 @@ class RegistrationCtl(BaseCtl):
             if (DataValidator.isemail(self.form['loginId'])):
                 inputError['loginId'] = "login ID must be like student@gmail.com"
                 self.form['error'] = True
+
         if (DataValidator.isNull(self.form['password'])):
             inputError['password'] = "Password is required"
             self.form['error'] = True
+
         if (DataValidator.isNull(self.form['confirmPassword'])):
             inputError['confirmPassword'] = "Confirm Passsword is required"
             self.form['error'] = True
@@ -92,6 +94,7 @@ class RegistrationCtl(BaseCtl):
             if self.form['password'] != self.form['confirmPassword']:
                 inputError['confirmPassword'] = "Password and Confirmpassword are not same"
                 self.form['error'] = True
+
         if (DataValidator.isNull(self.form["dob"])):
             inputError["dob"] = "DOB is required"
             self.form["error"] = True
@@ -99,12 +102,15 @@ class RegistrationCtl(BaseCtl):
             if (DataValidator.isDate(self.form['dob'])):
                 inputError['dob'] = "Incorrect Date, should be YYYY-MM-DD"
                 self.form['error'] = True
+
         if (DataValidator.isNull(self.form['address'])):
             inputError['address'] = "Address is required"
             self.form['error'] = True
+
         if (DataValidator.isNull(self.form['gender'])):
             inputError['gender'] = "Gender is required"
             self.form['error'] = True
+
         if (DataValidator.isNull(self.form['mobileNumber'])):
             inputError['mobileNumber'] = "Mobile Number is required"
             self.form['error'] = True
@@ -115,27 +121,15 @@ class RegistrationCtl(BaseCtl):
         return self.form['error']
 
     def display(self, request, params={}):
-        if params.get('id', 0) > 0:
-            r = self.get_service().get(params['id'])
-            self.model_to_form(r)
         res = render(request, self.get_template(), {"form": self.form})
         return res
 
     def submit(self, request, params={}):
-        q = User.objects.filter()
-
-        q = q.filter(loginId=self.form['loginId'])
-        if q.count() > 0:
-            self.form['error'] = True
-            self.form['messege'] = "Login ID Already Exists"
-            res = render(request, self.get_template(), {'form': self.form})
-        else:
-            r = self.form_to_model(User())
-            self.get_service().save(r)
-            self.form['id'] = r.id
-            self.form['error'] = False
-            self.form['messege'] = "YOUR REGISTERATION HAS BEEN COMPLETED SUCCESSFULLY"
-            res = render(request, self.get_template(), {'form': self.form})
+        r = self.form_to_model(User())
+        self.get_service().save(r)
+        self.form['error'] = False
+        self.form['messege'] = "User Registration successfully..!!"
+        res = render(request, self.get_template(), {'form': self.form})
         return res
 
     def get_template(self):

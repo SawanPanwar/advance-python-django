@@ -3,7 +3,6 @@ from ..utility.DataValidator import DataValidator
 from .BaseService import BaseService
 from django.db import connection
 
-
 class UserService(BaseService):
     def authenticate(self, params):
         loginId = params.get("loginId", None)

@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 class BaseCtl(ABC):
     preload_data = {}
+    dynamic_preload = {}
     page_list = {}
 
     def __init__(self):
@@ -26,14 +27,7 @@ class BaseCtl(ABC):
             if self.input_validation():
                 return self.display(request, params)
             else:
-                if (request.POST.get("operation") == "delete"):
-                    return self.deleteRecord(request, params)
-                elif (request.POST.get("operation") == "next"):
-                    return self.next(request, params)
-                elif (request.POST.get("operation") == "previous"):
-                    return self.previous(request, params)
-                else:
-                    return self.submit(request, params)
+                return self.submit(request, params)
         else:
             message = "Request is not supported"
             return HttpResponse(message)

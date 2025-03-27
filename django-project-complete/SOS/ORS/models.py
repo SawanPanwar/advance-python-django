@@ -14,6 +14,12 @@ class User(models.Model):
     roleId = models.IntegerField()
     roleName = models.CharField(max_length=50)
 
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return self.firstName + ' ' + self.lastName
+
     class Meta:
         db_table = 'sos_user'
 
@@ -21,6 +27,12 @@ class User(models.Model):
 class Role(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
+
+    def get_key(self):
+        return self.id
+
+    def get_value(self):
+        return self.name
 
     class Meta:
         db_table = 'sos_role'

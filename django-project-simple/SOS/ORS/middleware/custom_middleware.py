@@ -23,7 +23,7 @@ class FrontCtlMiddleware:
 
     def __call__(self, request):
 
-        if request.path_info in ['/', '/ORS/signin/', '/ORS/signup/', '/ORS/welcome/', '/ORS/logout/']:
+        if request.path_info in ['/', '/ORS/login/', '/ORS/signup/', '/ORS/welcome/', '/ORS/logout/']:
             return self.get_response(request)
 
         if request.session['firstName'] == None:

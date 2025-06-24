@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'ORS.middleware.custom_middleware.SimpleMiddleware',
+    'ORS.middleware.custom_middleware.FrontCtlMiddleware',
 ]
 
 ROOT_URLCONF = 'SOS.urls'

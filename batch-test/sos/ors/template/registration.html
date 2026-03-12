@@ -5,7 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<form>
+{% include "header.html" %}
+<form method="post">
+    {% csrf_token %}
     <div align="center">
         <h1>User Registration</h1>
         <table>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from .service.user_service import UserService
 
 
 def test_ors(request):
@@ -19,13 +20,16 @@ def user_signup_test(request):
     return render(request, 'registration.html')
 
 def user_signup(request):
-    print(request.POST.get('firstName'))
-    print(request.POST.get('lastName'))
-    print(request.POST.get('loginId'))
-    print(request.POST.get('password'))
-    print(request.POST.get('dob'))
-    print(request.POST.get('address'))
-    print(request.POST.get('csrfmiddlewaretoken'))
+    if request.method == "POST":
+        params = {}
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+        service = UserService()
+        service.add(params)
     return render(request, 'registration.html')
 
 def user_signin(request):

@@ -5,9 +5,21 @@
     <title>Title</title>
 </head>
 <body>
+<!--<h3>Hi, Guest</h3>-->
+<!--<h3>Hi, {{ firstName }}</h3>-->
+<!--<a href="/ors/welcome/"><b>Welcome</b></a> |-->
+<!--<a href="/ors/signin/"><b>Login</b></a>-->
+
+{% if firstName == None %}
 <h3>Hi, Guest</h3>
 <a href="/ors/welcome/"><b>Welcome</b></a> |
 <a href="/ors/signin/"><b>Login</b></a>
+{% else %}
+<h3>Hi, {{ firstName }}</h3>
+<a href="/ors/welcome/"><b>Add User</b></a> |
+<a href="/ors/welcome/"><b>User List</b></a> |
+<a href="/ors/welcome/"><b>Logout</b></a>
+{% endif %}
 <hr>
 </body>
 </html>

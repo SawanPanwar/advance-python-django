@@ -44,10 +44,24 @@ def user_signin(request):
             service = UserService()
             user_data = service.auth(loginId, password)
             if len(user_data) != 0:
-                # return redirect('/ors/welcome')
-                return render(request, 'welcome.html', {'firstName': user_data[0].get('firstName')})
+                request.session['firstName'] = user_data[0].get('firstName')
+                return redirect('/ors/welcome')
+                # return render(request, 'welcome.html', {'firstName': user_data[0].get('firstName')})
             else:
                 message = 'Login ID & Password Invalid'
         if request.POST.get('operation') == "signUp":
             return redirect("/ors/signup/")
     return render(request, 'login.html', {'message': message})
+
+def logout(request):
+    request.session['firstName'] = None
+    return redirect('/ors/signin')
+
+
+def test_list(request):
+    list = [
+        {"id": 1, "firstName": "abc", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
+        {"id": 2, "firstName": "xyz", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
+        {"id": 3, "firstName": "pqr", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"}
+    ]
+    return render(request, "testlist.html", {"list": list})

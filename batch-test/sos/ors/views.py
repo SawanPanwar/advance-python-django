@@ -65,3 +65,12 @@ def test_list(request):
         {"id": 3, "firstName": "pqr", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"}
     ]
     return render(request, "testlist.html", {"list": list})
+
+def user_list(request):
+    params = {}
+    params['pageNo'] = 1
+    params['pageSize'] = 5
+
+    service = UserService()
+    list = service.search(params)
+    return render(request, "userlist.html", {"list": list})

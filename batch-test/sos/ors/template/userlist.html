@@ -34,14 +34,14 @@
         </tr>
         {% for l in list %}
         <tr>
-            <td align="center">{{ l.id }}</td>
+            <td align="center">{{ index|add:forloop.counter }}</td>
             <td align="center">{{ l.firstName }}</td>
             <td align="center">{{ l.lastName }}</td>
             <td align="center">{{ l.loginId }}</td>
             <td align="center">{{ l.password }}</td>
             <td align="center">{{ l.dob }}</td>
             <td align="center">{{ l.address }}</td>
-            <td align="center"><a href="#">edit</a> | <a href="#">delete</a>
+            <td align="center"><a href="#">edit</a> | <a href="/ors/delete/{{ l.id }}/">delete</a>
             </td>
         </tr>
         {% endfor %}
@@ -50,14 +50,15 @@
     <table style="width: 100%">
         <tr>
             <td style="width: 25%">
-                <input type="submit" name="operation" value="previous">
+                <input type="submit" name="operation" value="previous" {% if pageNo == 1 %} disabled {% endif %}>
             </td>
             <td style="width: 75%"></td>
             <td>
-                <input type="submit" name="operation" value="next">
+                <input type="submit" name="operation" value="next" {% if list|length < 5 %} disabled {% endif %}>
             </td>
         </tr>
     </table>
+     <input type="hidden" name="pageNo" value="{{pageNo}}">
 </form>
 </body>
 </html>

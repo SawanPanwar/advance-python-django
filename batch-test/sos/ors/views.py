@@ -93,3 +93,29 @@ def delete_user(request, id=0):
     service = UserService()
     service.delete(id)
     return redirect("/ors/list/")
+
+def user_save(request):
+    message = ''
+    params = {}
+    if request.method == "POST":
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+        service = UserService()
+        if request.POST['operation'] == "save":
+            service.add(params)
+            message = 'User Added Successfully'
+        if request.POST['operation'] == "update":
+            params['id'] = int(request.POST.get('id', 0))
+            service.update(params)
+            message = 'User Updated Successfully'
+    return render(request, 'user.html', {'form': params, 'message': message})
+
+def edit_user(request, id=0):
+    service = UserService()
+    user_data = service.get(id)
+    user_data[0]['dob'] = user_data[0]['dob'].strftime('%Y-%m-%d')
+    return render(request, 'user.html', {'form': user_data[0]})

@@ -9,6 +9,7 @@ from .models import Marksheet
 def welcome(request):
     return render(request, 'welcome.html')
 
+
 def user_signup(request):
     message = ''
     if request.method == "POST":
@@ -47,7 +48,7 @@ def user_logout(request):
     logout(request)
     return redirect('/ors/signin/')
 
-
+@login_required()
 def add_marksheet(request):
     message = ''
     if request.method == "POST":
@@ -57,24 +58,31 @@ def add_marksheet(request):
         marksheet.physics = request.POST["physics"]
         marksheet.chemistry = request.POST["chemistry"]
         marksheet.maths = request.POST["maths"]
-        marksheet.save()
 
-        message = 'Marksheet Added Successfully'
+        if request.POST['operation'] == "save":
+            message = 'Marksheet Added Successfully'
+        if request.POST['operation'] == "update":
+            marksheet.id = int(request.POST.get('id', 0))
+            message = 'Marksheet Updated Successfully'
+        if request.POST['operation'] == "list":
+            return redirect("/ors/list/")
+
+        marksheet.save()
     return render(request, "marksheet.html", {'message': message})
 
-
+@login_required()
 def marksheet_list(request):
     list = Marksheet.objects.all()
     return render(request, "marksheetlist.html", {"list": list})
 
-
+@login_required()
 def delete_marksheet(request, id):
     obj = Marksheet.objects.get(id=id)
     obj.delete()
     return redirect("/ors/list/")
 
+@login_required()
 def edit_marksheet(request, id):
     message = ''
     obj = Marksheet.objects.get(id=id)
     return render(request, "marksheet.html", {"form": obj, "id": id, 'message': message})
-

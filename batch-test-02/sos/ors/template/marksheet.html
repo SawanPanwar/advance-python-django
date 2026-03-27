@@ -6,12 +6,19 @@
 </head>
 <body>
 {% include "header.html" %}
-<form method="POST">
+<form action="/ors/save/" method="POST">
     {% csrf_token %}
     <div align="center">
+        {% if form.id > 0 %}
+        <h1>Update Marksheet</h1>
+        {% else %}
         <h1>Add Marksheet</h1>
+        {% endif %}
         {{message}}
         <table>
+            <tr>
+                <td><input type="hidden" name="id" value="{{ form.id }}"></td>
+            </tr>
             <tr>
                 <th>Roll No. :</th>
                 <td><input type="text" name="rollNo" value="{{ form.rollNo }}"></td>
@@ -34,7 +41,15 @@
             </tr>
             <tr>
                 <th></th>
-                <td><input type="submit" value="save"></td>
+
+                <td>
+                    {% if form.id > 0 %}
+                    <input type="submit" name="operation" value="update">
+                    {% else %}
+                    <input type="submit" name="operation" value="save">
+                    {% endif %}
+                    <input type="submit" name="operation" value="list">
+                </td>
             </tr>
         </table>
     </div>

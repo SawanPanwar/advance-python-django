@@ -10,6 +10,7 @@
     {% csrf_token %}
     <div align="center">
         <h1>Login</h1>
+        <h3><font color="red">{{ message }}</font></h3>
         <table>
             <tr>
                 <th>Login ID:</th>
@@ -22,7 +23,8 @@
             <tr>
                 <td></td>
                 <td>
-                    <input type="submit" value="signIn">
+                    <input type="submit" name="operation" value="signIn">
+                    <input type="submit" name="operation" value="signUp">
                 </td>
             </tr>
         </table>

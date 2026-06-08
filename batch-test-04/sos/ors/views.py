@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from .service.UserService import UserService
 
 
 def test_ors(request):
@@ -11,22 +12,45 @@ def welcome(request):
 
 
 def user_signup(request):
+    message = ''
     if request.method == 'POST':
-        print(request.POST.get('firstName'))
-        print(request.POST.get('lastName'))
-        print(request.POST.get('loginId'))
-        print(request.POST.get('password'))
-        print(request.POST.get('dob'))
-        print(request.POST.get('address'))
-    return render(request, 'registration.html')
+        params = {}
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+        service = UserService()
+
+        user_exist = service.findByLogin(params['loginId'])
+
+        if len(user_exist) > 0:
+            message = 'Login Already Exist..!!'
+        else:
+            service.add(params)
+            message = 'User Registered Successfully..!!'
+
+    return render(request, 'registration.html', {'message': message})
 
 
 def user_signin(request):
+    message = ''
+
     if request.method == 'POST':
-        loginId = request.POST.get('loginId')
-        password = request.POST.get('password')
+        operation = request.POST.get('operation')
+        if operation == 'signIn':
+            loginId = request.POST.get('loginId')
+            password = request.POST.get('password')
+            service = UserService()
+            user_data = service.auth(loginId, password)
 
-        if loginId == 'admin' and password == 'admin':
-            return redirect('/ors/welcome/')
+            if len(user_data) > 0:
+                return redirect('/ors/welcome/')
+            else:
+                message = 'Login & Password Invalid..!!'
 
-    return render(request, 'login.html')
+        if operation == 'signUp':
+            return redirect('/ors/signup/')
+
+    return render(request, 'login.html', {'message': message})

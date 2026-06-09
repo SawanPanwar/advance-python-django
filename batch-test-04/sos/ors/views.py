@@ -46,7 +46,9 @@ def user_signin(request):
             user_data = service.auth(loginId, password)
 
             if len(user_data) > 0:
+                request.session['firstName'] = user_data[0].get('firstName')
                 return redirect('/ors/welcome/')
+                # return render(request, 'welcome.html', {'name': user_data[0].get('firstName')})
             else:
                 message = 'Login & Password Invalid..!!'
 
@@ -54,3 +56,28 @@ def user_signin(request):
             return redirect('/ors/signup/')
 
     return render(request, 'login.html', {'message': message})
+
+
+def user_logout(request):
+    request.session['firstName'] = None
+    return redirect('/ors/signin/')
+
+
+def test_list(request):
+    list = [
+        {"id": 1, "firstName": "abc", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
+        {"id": 2, "firstName": "xyz", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"},
+        {"id": 3, "firstName": "pqr", "lastName": "aaa", "email": "abc@gmail.com", "password": "12345"}
+    ]
+    return render(request, "testlist.html", {"list": list})
+
+
+def user_list(request):
+    params = {}
+    params['pageNo'] = 1
+    params['pageSize'] = 5
+
+    service = UserService()
+    list = service.search(params)
+    index = (params['pageNo'] - 1) * 5
+    return render(request, "userlist.html", {"list": list, 'index': index})

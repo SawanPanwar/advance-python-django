@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 
@@ -12,8 +12,31 @@ def welcome(request):
 
 
 def user_signup(request):
-    return render(request, 'registration.html')
+    message = ''
+
+    if request.method == "POST":
+        first_name = request.POST.get('firstName')
+        last_name = request.POST.get('lastName')
+        login_id = request.POST.get('loginId')
+        password = request.POST.get('password')
+        dob = request.POST.get('dob')
+        address = request.POST.get('address')
+
+        if first_name != '' and last_name != '' and login_id != '' and password != '':
+            message = 'User Registration Successfully...!!!'
+
+    return render(request, 'registration.html', {'message': message})
 
 
 def user_signin(request):
-    return render(request, 'login.html')
+    message = ''
+
+    if request.method == "POST":
+        login_id = request.POST.get('loginId')
+        password = request.POST.get('password')
+        if login_id == 'admin' and password == 'admin':
+            return redirect('/ors/welcome/')
+        else:
+            message = 'Login ID & Password Invalid'
+
+    return render(request, 'login.html', {'message': message})

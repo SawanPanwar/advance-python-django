@@ -102,10 +102,10 @@ class UserService:
             sql += " and firstName like '" + fname + "%%' "
         if (pageSize > 0):
             pageNo = (pageNo - 1) * pageSize
-            sql += " limit %s, %s"
+            sql += " limit " + str(pageNo) + ", " + str(pageSize)
         print('sql => ', sql)
         cursor = connection.cursor()
-        cursor.execute(sql, [pageNo, pageSize])
+        cursor.execute(sql)
         result = cursor.fetchall()
         columnName = ("id", "firstName", "lastName", "loginId", "password", "dob", "address")
         res = []

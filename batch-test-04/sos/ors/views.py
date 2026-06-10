@@ -77,7 +77,61 @@ def user_list(request):
     params['pageNo'] = 1
     params['pageSize'] = 5
 
+    if request.method == "POST":
+        if request.POST['operation'] == "next":
+            params['pageNo'] = int(request.POST['pageNo'])
+            params['pageNo'] += 1
+        if request.POST['operation'] == "previous":
+            params['pageNo'] = int(request.POST['pageNo'])
+            params['pageNo'] -= 1
+        if request.POST['operation'] == "search":
+            params['firstName'] = request.POST['firstName']
+
     service = UserService()
     list = service.search(params)
     index = (params['pageNo'] - 1) * 5
-    return render(request, "userlist.html", {"list": list, 'index': index})
+    return render(request, "userlist.html", {"list": list, 'index': index, 'pageNo': params['pageNo']})
+
+
+def user_save(request, id=0):
+    message = ''
+    form = {}
+    service = UserService()
+
+    if request.method == 'GET' and id > 0:
+        user_data = service.get(id)
+        user_data[0]['dob'] = user_data[0]['dob'].strftime('%Y-%m-%d')
+        form = user_data[0]
+
+    if request.method == 'POST':
+        params = {}
+        params['firstName'] = request.POST.get('firstName')
+        params['lastName'] = request.POST.get('lastName')
+        params['loginId'] = request.POST.get('loginId')
+        params['password'] = request.POST.get('password')
+        params['dob'] = request.POST.get('dob')
+        params['address'] = request.POST.get('address')
+
+        user_exist = service.findByLogin(params['loginId'])
+
+        if request.POST['operation'] == "save":
+            if len(user_exist) > 0:
+                message = 'Login Already Exist..!!'
+            else:
+                service.add(params)
+                message = 'User Added Successfully..!!'
+        if request.POST['operation'] == "update":
+            if len(user_exist) > 0 and user_exist[0]['id'] != id:
+                message = 'Login Already Exist..!!'
+            else:
+                params['id'] = id
+                service.update(params)
+                message = 'User Updated Successfully..!!'
+        form = params
+    return render(request, 'user.html', {'message': message, 'form': form})
+
+
+def delete_user(request, id=0):
+    service = UserService()
+    service.delete(id)
+    return redirect("/ors/list/")

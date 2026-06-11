@@ -35,7 +35,8 @@ def user_signin(request):
         login_id = request.POST.get('loginId')
         password = request.POST.get('password')
         if login_id == 'admin' and password == 'admin':
-            return redirect('/ors/welcome/')
+            # return redirect('/ors/welcome/')
+            return render(request, 'welcome.html', {'name': 'Admin'})
         else:
             message = 'Login ID & Password Invalid'
 

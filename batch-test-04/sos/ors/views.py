@@ -42,12 +42,16 @@ def user_signin(request):
         if operation == 'signIn':
             loginId = request.POST.get('loginId')
             password = request.POST.get('password')
+            uri = request.POST.get('uri')
             service = UserService()
             user_data = service.auth(loginId, password)
 
             if len(user_data) > 0:
                 request.session['firstName'] = user_data[0].get('firstName')
-                return redirect('/ors/welcome/')
+                if uri != '':
+                    return redirect(uri)
+                else:
+                    return redirect('/ors/welcome/')
                 # return render(request, 'welcome.html', {'name': user_data[0].get('firstName')})
             else:
                 message = 'Login & Password Invalid..!!'
@@ -94,8 +98,10 @@ def user_list(request):
 
 
 def user_save(request, id=0):
-    message = ''
-    form = {}
+    form = {
+        'message': '',
+        'error': False
+    }
     service = UserService()
 
     if request.method == 'GET' and id > 0:
@@ -104,31 +110,33 @@ def user_save(request, id=0):
         form = user_data[0]
 
     if request.method == 'POST':
-        params = {}
-        params['firstName'] = request.POST.get('firstName')
-        params['lastName'] = request.POST.get('lastName')
-        params['loginId'] = request.POST.get('loginId')
-        params['password'] = request.POST.get('password')
-        params['dob'] = request.POST.get('dob')
-        params['address'] = request.POST.get('address')
+        form['firstName'] = request.POST.get('firstName')
+        form['lastName'] = request.POST.get('lastName')
+        form['loginId'] = request.POST.get('loginId')
+        form['password'] = request.POST.get('password')
+        form['dob'] = request.POST.get('dob')
+        form['address'] = request.POST.get('address')
 
-        user_exist = service.findByLogin(params['loginId'])
+        user_exist = service.findByLogin(form['loginId'])
 
         if request.POST['operation'] == "save":
             if len(user_exist) > 0:
-                message = 'Login Already Exist..!!'
+                form['message'] = 'Login Already Exist..!!'
+                form['error'] = True
             else:
-                service.add(params)
-                message = 'User Added Successfully..!!'
+                service.add(form)
+                form['message'] = 'User Added Successfully..!!'
+                form['error'] = False
         if request.POST['operation'] == "update":
+            form['id'] = id
             if len(user_exist) > 0 and user_exist[0]['id'] != id:
-                message = 'Login Already Exist..!!'
+                form['message'] = 'Login Already Exist..!!'
+                form['error'] = True
             else:
-                params['id'] = id
-                service.update(params)
-                message = 'User Updated Successfully..!!'
-        form = params
-    return render(request, 'user.html', {'message': message, 'form': form})
+                service.update(form)
+                form['message'] = 'User Updated Successfully..!!'
+                form['error'] = False
+    return render(request, 'user.html', {'form': form})
 
 
 def delete_user(request, id=0):

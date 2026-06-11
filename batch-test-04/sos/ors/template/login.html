@@ -6,7 +6,7 @@
 </head>
 <body>
 {% include "header.html" %}
-<form method="POST">
+<form action="/ors/signin/" method="POST">
     {% csrf_token %}
     <div align="center">
         <h1>Login</h1>
@@ -29,6 +29,7 @@
             </tr>
         </table>
     </div>
+    <input type="text" name="uri" value="{{ uri }}">
 </form>
 </body>
 </html>

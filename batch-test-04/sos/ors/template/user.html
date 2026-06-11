@@ -15,7 +15,12 @@
         {% else %}
         <h1>Add User</h1>
         {% endif %}
-        <h3><font color="green">{{ message }}</font></h3>
+        {% if form.error %}
+        <h3><font color="red"> {{ form.message }} </font></h3>
+        {% else %}
+        <h3><font color="green"> {{ form.message }} </font></h3>
+        {% endif %}
+
         <table>
             <tr>
                 <th>First Name:</th>

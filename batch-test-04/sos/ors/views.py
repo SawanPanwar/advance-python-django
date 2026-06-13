@@ -1,6 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .service.UserService import UserService
+from .models import Marksheet
+from .forms import MarksheetForm
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 
 def test_ors(request):
@@ -64,6 +69,7 @@ def user_signin(request):
 
 def user_logout(request):
     request.session['firstName'] = None
+    logout(request)
     return redirect('/ors/signin/')
 
 
@@ -75,7 +81,7 @@ def test_list(request):
     ]
     return render(request, "testlist.html", {"list": list})
 
-
+@login_required()
 def user_list(request):
     params = {}
     params['pageNo'] = 1
@@ -143,3 +149,58 @@ def delete_user(request, id=0):
     service = UserService()
     service.delete(id)
     return redirect("/ors/list/")
+
+
+def add_marksheet(request):
+    message = ''
+    if request.method == 'POST':
+        marksheet = Marksheet()
+        marksheet.rollNo = request.POST.get('rollNo')
+        marksheet.name = request.POST.get('name')
+        marksheet.physics = request.POST.get('physics')
+        marksheet.chemistry = request.POST.get('chemistry')
+        marksheet.maths = request.POST.get('maths')
+
+        marksheet.save()
+    return render(request, 'marksheet.html')
+
+
+def add_marksheet_form(request):
+    message = ''
+    if request.method == 'POST':
+        form = MarksheetForm(request.POST)
+        if form.is_valid():
+            form.save()
+    # form = MarksheetForm()
+    return render(request, 'marksheet.html')
+
+
+def auth_signup(request):
+    message = ''
+    if request.method == "POST":
+        userName = request.POST["userName"]
+        firstName = request.POST["firstName"]
+        lastName = request.POST["lastName"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        obj = User.objects.create_superuser(userName, email, password)
+        obj.first_name = firstName
+        obj.last_name = lastName
+        obj.save()
+        message = 'User Registered Successfully'
+    return render(request, "authsignup.html", {'message': message})
+
+
+def auth_signin(request):
+    message = ''
+    if request.method == "POST":
+        userName = request.POST["userName"]
+        password = request.POST["password"]
+        user = authenticate(username=userName, password=password)
+        if user is not None:
+            request.session["firstName"] = userName
+            login(request, user)
+            return redirect('/ors/welcome/')
+        else:
+            message = 'Invalid User'
+    return render(request, "authsignin.html", {'message': message})

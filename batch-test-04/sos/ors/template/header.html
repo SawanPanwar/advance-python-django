@@ -18,11 +18,14 @@
 {% if request.session.firstName == None %}
 <h3>Hi, Guest</h3>
 <a href="/ors/welcome/"><b>Welcome</b></a> |
-<a href="/ors/signin/"><b>Login</b></a>
+<a href="/ors/signin/"><b>Login</b></a> |
+<a href="/ors/authsignup/"><b>Auth SignUp</b></a> |
+<a href="/ors/authsignin/"><b>Auth SignIn</b></a>
 {% else %}
 <h3>Hi, {{ request.session.firstName }}</h3>
 <a href="/ors/save/"><b>Add User</b></a> |
 <a href="/ors/list/"><b>User List</b></a> |
+<a href="/ors/marksheet/"><b>Add Marksheet</b></a> |
 <a href="/ors/testlist/"><b>Test List</b></a> |
 <a href="/ors/logout/"><b>Logout</b></a>
 {% endif %}

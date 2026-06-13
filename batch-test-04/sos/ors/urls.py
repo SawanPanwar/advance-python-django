@@ -13,4 +13,7 @@ urlpatterns = [
     path('save/', views.user_save),
     path('delete/<int:id>/', views.delete_user),
     path('save/<int:id>/', views.user_save),
+    path('marksheet/', views.add_marksheet_form),
+    path('authsignup/', views.auth_signup),
+    path('authsignin/', views.auth_signin),
 ]

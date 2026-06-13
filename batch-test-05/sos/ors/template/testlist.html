@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'header.html' %}
+<div align="center">
+    <h1>Test List</h1>
+</div>
+<table border="1%" width="100%">
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Password</th>
+    </tr>
+    {% for l in list %}
+    <tr align="center">
+        <td>{{ l.id }}</td>
+        <td>{{ l.firstName }}</td>
+        <td>{{ l.lastName }}</td>
+        <td>{{ l.email }}</td>
+        <td>{{ l.password }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

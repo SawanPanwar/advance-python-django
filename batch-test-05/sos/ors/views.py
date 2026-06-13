@@ -35,9 +35,22 @@ def user_signin(request):
         login_id = request.POST.get('loginId')
         password = request.POST.get('password')
         if login_id == 'admin' and password == 'admin':
-            # return redirect('/ors/welcome/')
-            return render(request, 'welcome.html', {'name': 'Admin'})
+            request.session['name'] = 'Admin'
+            return redirect('/ors/welcome/')
+            # return render(request, 'welcome.html', {'name': 'Admin'})
         else:
             message = 'Login ID & Password Invalid'
 
     return render(request, 'login.html', {'message': message})
+
+def user_logout(request):
+    request.session['name'] = None
+    return redirect('/ors/signin/')
+
+def test_list(request):
+    list = [
+        {"id": 1, "firstName": "abc", "lastName": "xyz", "email": "abc@gmail.com", "password": "12345"},
+        {"id": 2, "firstName": "pqr", "lastName": "pqr", "email": "pqr@gmail.com", "password": "12345"},
+        {"id": 3, "firstName": "klm", "lastName": "klm", "email": "klm@gmail.com", "password": "12345"}
+    ]
+    return render(request, "testlist.html", {"list": list})

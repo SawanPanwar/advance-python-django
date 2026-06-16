@@ -96,6 +96,20 @@ class UserService:
         connection.close()
         return res
 
+    def authenticate(self, login_id, password):
+        cursor = connection.cursor()
+        sql = "select * from sos_user where login_id = %s and password = %s"
+        data = (login_id, password)
+        cursor.execute(sql, data)
+        result = cursor.fetchall()
+        column_name = ("id", "firstName", "lastName", "loginId", "password", "dob", "address")
+        res = []
+        for x in result:
+            print({column_name[i]: x[i] for i, _ in enumerate(x)})
+            res.append({column_name[i]: x[i] for i, _ in enumerate(x)})
+        connection.close()
+        return res
+
     def search(self, data):
         first_name = data.get('first_name', '')
         dob = data.get('dob', 0)

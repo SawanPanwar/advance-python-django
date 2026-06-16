@@ -23,11 +23,10 @@
 <!--<a href="/ors/signup/"><b>Registration</b></a>-->
 <!--{% endif %}-->
 
-{% if request.session.name != None %}
-<h3>Hi, {{ request.session.name }}</h3>
+{% if request.session.first_name != None %}
+<h3>Hi, {{ request.session.first_name }}</h3>
 <a href="#"><b>Add User</b></a> <b>|</b>
 <a href="#"><b>User List</b></a> <b>|</b>
-<a href="/ors/testlist/"><b>Test List</b></a> <b>|</b>
 <a href="/ors/logout/"><b>Logout</b></a>
 {% else %}
 <h3>Hi, Guest</h3>

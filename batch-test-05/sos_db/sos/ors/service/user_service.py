@@ -110,17 +110,17 @@ class UserService:
         connection.close()
         return res
 
-    def search(self, data):
-        first_name = data.get('first_name', '')
-        dob = data.get('dob', 0)
-        page_no = data.get('page_no', 0)
-        page_size = data.get('page_size', 0)
+    def search(self, params):
+        first_name = params.get('first_name', '')
+        dob = params.get('dob', 0)
+        page_no = params.get('page_no', 0)
+        page_size = params.get('page_size', 0)
         cursor = connection.cursor()
         sql = "select * from sos_user where 1=1"
         if first_name != '':
-            sql += " and first_name='" + first_name + "'"
+            sql += " and first_name like '" + first_name + "%%'"
         if dob != 0:
-            sql += " and dob= " + str(dob)
+            sql += " and dob = " + str(dob)
         if (page_size > 0):
             page_no = (page_no - 1) * page_size
             sql += " limit " + str(page_no) + ", " + str(page_size)

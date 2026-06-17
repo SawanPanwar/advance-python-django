@@ -97,6 +97,31 @@ def user_signin(request):
                 form['error'] = True
     return render(request, 'login.html', {'form': form})
 
+
 def user_logout(request):
     request.session['first_name'] = None
     return redirect('/ors/signin/')
+
+
+def user_list(request):
+    form = {}
+    form['page_no'] = 1
+    form['page_size'] = 5
+    form['list'] = []
+
+    if request.method == "POST":
+        if request.POST.get('operation', '') == "next":
+            form['page_no'] = int(request.POST['pageNo'])
+            form['page_no'] += 1
+        if request.POST.get('operation', '') == "previous":
+            form['page_no'] = int(request.POST['pageNo'])
+            form['page_no'] -= 1
+        if request.POST.get('operation', '') == "search":
+            form['first_name'] = request.POST['firstName']
+
+    user_service = UserService()
+    user_list = user_service.search(form)
+    form['list'] = user_list
+    form['index'] = (form['page_no'] - 1) * form['page_size']
+
+    return render(request, "userlist.html", {"form": form})

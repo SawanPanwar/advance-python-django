@@ -26,7 +26,7 @@
 {% if request.session.first_name != None %}
 <h3>Hi, {{ request.session.first_name }}</h3>
 <a href="#"><b>Add User</b></a> <b>|</b>
-<a href="#"><b>User List</b></a> <b>|</b>
+<a href="/ors/list/"><b>User List</b></a> <b>|</b>
 <a href="/ors/logout/"><b>Logout</b></a>
 {% else %}
 <h3>Hi, Guest</h3>

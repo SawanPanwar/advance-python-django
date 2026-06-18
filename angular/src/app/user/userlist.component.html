@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+<h1 align="center" style="margin-bottom: -15; color: navy;">User
+    List</h1>
+<table style="width: 100%">
+    <tr>
+        <td align="center">
+            <label><b>First Name : </b></label>
+            <input type="text" [(ngModel)]="form.searchParams.firstName" /> &nbsp;
+            <select name="id" [(ngModel)]="form.searchParams.id">
+                <option [ngValue]="null">{{'---------Select----------' }}</option>
+                <option *ngFor="let obj of form.preload" [value]="obj.id">
+                    {{obj.firstName +' '+obj.lastName}}
+                </option>
+            </select> &nbsp;
+            <button (click)="search()">search</button>
+        </td>
+    </tr>
+</table>
+<br>
+<table border="1" style="width: 100%; border: groove;">
+    <tr>
+        <th width="5%">Select</th>
+        <th width="5%">S.No.</th>
+        <th width="13%">FirstName</th>
+        <th width="13%">LastName</th>
+        <th width="13%">LoginId</th>
+        <th width="13%">Password</th>
+        <th width="13%">DOB</th>
+        <th width="13%">Address</th>
+        <th>Edit</th>
+    </tr>
+    <tr *ngFor="let m of form.list; let i = index">
+        <td style="text-align: center;">
+            <input type="checkbox" (change)="onCheckboxChange(m.id)" />
+        </td>
+        <td style="text-align: center;">{{(form.pageNo*5)+i+ 1}}</td>
+        <td style="text-align: center;">{{m.firstName}}</td>
+        <td style="text-align: center;">{{m.lastName}}</td>
+        <td style="text-align: center;">{{m.loginId}}</td>
+        <td style="text-align: center;">{{m.password}}</td>
+        <td style="text-align: center;">{{m.dob | date: 'dd-MM-yyyy'}}</td>
+        <td style="text-align: center;">{{m.address}}</td>
+        <td style="text-align: center;"> <a (click)="edit( '/user/' +  m.id)" style="color: blue;">edit
+            </a></td>
+    </tr>
+</table>
+<br>
+<table style="width: 100%">
+    <tr>
+        <td style="width: 25%"><button [disabled]="form.pageNo == 0" (click)="previous()">previous</button></td>
+        <td align="center" style="width: 25%"><a href="/user"><button>add</button></a>
+        </td>
+        <td align="center" style="width: 25%"><button (click)="delete()">delete</button>
+        </td>
+        <td style="width: 25%" align="right"><button [disabled]="form.list.length < 5" (click)="next()">next</button>
+        </td>
+    </tr>
+</table>

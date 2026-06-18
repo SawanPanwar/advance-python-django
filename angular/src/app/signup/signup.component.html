@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+<div align="center">
+    <h1>User Registration</h1>
+</div>
+<div align="center">
+    <h3>
+        <font color="green">{{form.message}}</font>
+    </h3>
+</div>
+<table align="center">
+    <tr>
+        <th>First Name :</th>
+        <td><input type="text" [(ngModel)]="form.data.firstName" name="firstName" /></td>
+    </tr>
+    <tr>
+        <th>Last Name :</th>
+        <td><input type="text" [(ngModel)]="form.data.lastName" name="lastName" /></td>
+    </tr>
+    <tr>
+        <th>Login ID :</th>
+        <td><input type="text" [(ngModel)]="form.data.loginId" name="loginId" /></td>
+    </tr>
+    <tr>
+        <th>Password :</th>
+        <td><input type="text" [(ngModel)]="form.data.password" name="password" /></td>
+    </tr>
+    <tr>
+        <th>DOB :</th>
+        <td><input type="date" [(ngModel)]="form.data.dob" name="dob" style="width: 98%;" /></td>
+    </tr>
+    <tr>
+        <th>Address :</th>
+        <td><input type="address" [(ngModel)]="form.data.address" name="dob" /></td>
+    </tr>
+    <tr>
+        <th></th>
+        <td><button (click)="signUp()">signUp</button></td>
+    </tr>
+</table>

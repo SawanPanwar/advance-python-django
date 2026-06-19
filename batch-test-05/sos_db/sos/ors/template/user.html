@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <th>DOB:</th>
-                <td><input type="text" name="dob" value="{{ form.dob }}"></td>
+                <td><input type="date" name="dob" value="{{ form.dob }}" style="width:98%"></td>
                 <td style="position: fixed;"><font color="red">{{ form.input_error.dob }}</font></td>
             </tr>
             <tr>
@@ -56,8 +56,10 @@
                 <td>
                     {% if form.id > 0 %}
                     <input type="submit" value="update">
+                    <input type="submit" name="operation" value="list">
                     {% else %}
                     <input type="submit" value="save">
+                    <input type="submit" name="operation" value="reset">
                     {% endif %}
                 </td>
             </tr>

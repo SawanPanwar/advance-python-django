@@ -50,7 +50,6 @@ def user_signup(request):
     form['input_error'] = {}
 
     if request.method == "POST":
-
         form['first_name'] = request.POST.get('firstName')
         form['last_name'] = request.POST.get('lastName')
         form['login_id'] = request.POST.get('loginId')
@@ -80,21 +79,27 @@ def user_signin(request):
     form['input_error'] = {}
 
     if request.method == "POST":
+        if request.POST.get('operation', '') == "signIn":
+            form['login_id'] = request.POST.get('loginId')
+            form['password'] = request.POST.get('password')
 
-        form['login_id'] = request.POST.get('loginId')
-        form['password'] = request.POST.get('password')
+            form['input_error'] = user_signin_validate(request)
 
-        form['input_error'] = user_signin_validate(request)
-
-        if not form['input_error']['error']:
-            user_service = UserService()
-            user_data = user_service.authenticate(form['login_id'], form['password'])
-            if len(user_data) > 0:
-                request.session['first_name'] = user_data[0].get('firstName')
-                return redirect('/ors/welcome/')
-            else:
-                form['message'] = 'Login ID & Password Invalid'
-                form['error'] = True
+            if not form['input_error']['error']:
+                user_service = UserService()
+                user_data = user_service.authenticate(form['login_id'], form['password'])
+                if len(user_data) > 0:
+                    request.session['first_name'] = user_data[0].get('firstName')
+                    uri = request.POST.get('uri')
+                    if uri != '':
+                        return redirect(uri)
+                    else:
+                        return redirect('/ors/welcome/')
+                else:
+                    form['message'] = 'Login ID & Password Invalid'
+                    form['error'] = True
+        if request.POST.get('operation', '') == "signUp":
+            return redirect('/ors/signup/')
     return render(request, 'login.html', {'form': form})
 
 
@@ -134,9 +139,8 @@ def delete_user(request, id=0):
 
 
 def user_save(request, id=0):
-    form = {
-        "id": 0
-    }
+    form = {}
+    form['id'] = 0
     form['message'] = ''
     form['error'] = False
     form['input_error'] = {}
@@ -149,8 +153,14 @@ def user_save(request, id=0):
         form['last_name'] = user_data[0].get('lastName')
         form['login_id'] = user_data[0].get('loginId')
         form['password'] = user_data[0].get('password')
-        form['dob'] = user_data[0].get('dob')
+        form['dob'] = user_data[0].get('dob').strftime('%Y-%m-%d')
         form['address'] = user_data[0].get('address')
+
+    if request.method == "POST":
+        if request.POST.get('operation', '') == "reset":
+            return redirect('/ors/save/')
+        if request.POST.get('operation', '') == "list":
+            return redirect('/ors/list/')
 
     if request.method == "POST":
         form['id'] = int(request.POST.get('id', 0))

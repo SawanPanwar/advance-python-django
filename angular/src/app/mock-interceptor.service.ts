@@ -62,6 +62,95 @@ export class MockInterceptorService implements HttpInterceptor {
       ).pipe(delay(1000));
     }
 
+
+    if (req.method === 'POST' && req.url.includes('/ORSAPI/search/')) {
+
+      const pageNo = parseInt(req.url.split('/search/')[1]);
+
+      const allData = [
+        {
+          id: 1,
+          firstName: 'klm',
+          lastName: 'klm',
+          loginId: 'abc@gmail.com',
+          password: '123',
+          dob: '2020-01-01',
+          address: 'indore'
+        },
+        {
+          id: 3,
+          firstName: 'Bharat',
+          lastName: 'Chikhaliya',
+          loginId: 'bharat@gmail.com',
+          password: '123',
+          dob: '2024-06-01',
+          address: 'indore'
+        },
+        {
+          id: 4,
+          firstName: 'Rahul',
+          lastName: 'Singh',
+          loginId: 'rahul@gmail.com',
+          password: '123',
+          dob: '2024-06-01',
+          address: 'indore'
+        },
+        {
+          id: 8,
+          firstName: 'Shubham',
+          lastName: 'Singh',
+          loginId: 'shubham@gmail.com',
+          password: '123',
+          dob: '2022-01-01',
+          address: 'indore'
+        },
+        {
+          id: 10,
+          firstName: 'Vishal',
+          lastName: 'Vishwakarma',
+          loginId: 'vishal@gmail.com',
+          password: '123',
+          dob: '2025-04-02',
+          address: 'Indore'
+        },
+        {
+          id: 11,
+          firstName: 'Amit',
+          lastName: 'Sharma',
+          loginId: 'amit@gmail.com',
+          password: '123',
+          dob: '2021-01-01',
+          address: 'Bhopal'
+        },
+        {
+          id: 12,
+          firstName: 'Rohit',
+          lastName: 'Verma',
+          loginId: 'rohit@gmail.com',
+          password: '123',
+          dob: '2023-05-10',
+          address: 'Ujjain'
+        }
+      ];
+
+      const pageSize = 5;
+
+      const start = pageNo * pageSize;
+      const end = start + pageSize;
+      const pageData = allData.slice(start, end);
+
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            result: {
+              data: pageData,
+            }
+          }
+        })
+      ).pipe(delay(500));
+    }
+
     return next.handle(req);
   }
 }

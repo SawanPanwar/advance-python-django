@@ -8,16 +8,25 @@ from django.core.paginator import Paginator
 class UserService:
 
     def save(self, obj):
-        is_new = obj.id == 0
-        if is_new:
+
+        duplicate = self.find_by_login(obj.login_id)
+
+        if obj.id > 0:
+            duplicate = duplicate.exclude(id=obj.id)
+
+        if duplicate.exists():
+            raise Exception('Login ID already exist')
+
+        if obj.id == 0:
             obj.id = None
+
         obj.save()
 
     def get(self, pk):
         try:
             obj = User.objects.get(id=pk)
             return obj
-        except self.get_model().DoesNotExist:
+        except User.DoesNotExist:
             return None
 
     def delete(self, id):
@@ -25,11 +34,8 @@ class UserService:
         obj.delete()
 
     def find_by_login(self, login_id):
-        try:
-            obj = User.objects.get(login_id=login_id)
-            return obj
-        except self.get_model().DoesNotExist:
-            return None
+        obj = User.objects.filter(login_id=login_id)
+        return obj
 
     def authenticate(self, login_id, password):
         query = User.objects.all()
@@ -38,23 +44,23 @@ class UserService:
         query = query.filter(password=password.strip())
 
         if len(query) > 0:
-            return query[0]
+            return query.first()
         else:
             return None
 
     def search(self, params):
 
-        page_no = int(params.get("page_no", 0))
+        page_no = int(params.get("page_no", 1))
         page_size = int(params.get('page_size', 0))
 
         query = User.objects.all()
 
-        if (page_size == 0):
-            return query
-
         value = params.get("first_name", '')
         if DataValidator.is_not_null(value):
             query = query.filter(first_name__istartswith=value.strip())
+
+        if (page_size == 0):
+            return query
 
         paginator = Paginator(query, page_size)
 

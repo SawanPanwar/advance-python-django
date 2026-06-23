@@ -1,0 +1,37 @@
+from django.shortcuts import render, redirect
+from .ctl.registration_ctl import RegistrationCtl
+from .ctl.login_ctl import LoginCtl
+from .ctl.welcome_ctl import WelcomeCtl
+from .ctl.user_ctl import UserCtl
+from .ctl.user_list_ctl import UserListCtl
+
+
+def welcome(request):
+    return render(request, 'welcome.html')
+
+
+def user_logout(request):
+    request.session.flush()
+    return redirect('/ors/Login/')
+
+
+def action(request, page):
+    ctl_name = page + "Ctl()"
+    ctl_obj = eval(ctl_name)
+
+    if request.method == "GET":
+        return ctl_obj.display(request)
+
+    if request.method == "POST":
+        return ctl_obj.submit(request)
+
+
+def action_operation_id(request, page, operation='', id=0):
+    ctl_name = page + "Ctl()"
+    ctl_obj = eval(ctl_name)
+
+    if request.method == "GET":
+        return ctl_obj.display(request, operation, id)
+
+    if request.method == "POST":
+        return ctl_obj.submit(request)

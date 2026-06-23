@@ -2,12 +2,16 @@ from django.shortcuts import render, redirect
 from .service.user_service import UserService
 from .utility.data_validator import DataValidator
 
+
 def init_form():
     form = {}
     form['id'] = 0
     form['message'] = ''
     form['error'] = False
     form['input_error'] = {}
+    form['page_no'] = 1
+    form['page_size'] = 5
+    form['list'] = []
     return form
 
 
@@ -33,6 +37,7 @@ def dict_to_form(user_data):
     form['dob'] = user_data.get('dob').strftime('%Y-%m-%d')
     form['address'] = user_data.get('address')
     return form
+
 
 def user_signup_validate(request):
     input_error = {}
@@ -75,12 +80,12 @@ def welcome(request):
 
 
 def user_signup(request):
-    form = init_form()
-
     if request.method == "GET":
+        form = init_form()
         return render(request, 'registration.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
         form.update(request_to_form(request))
         form['input_error'] = user_signup_validate(request)
 
@@ -98,12 +103,12 @@ def user_signup(request):
 
 
 def user_signin(request):
-    form = init_form()
-
     if request.method == "GET":
+        form = init_form()
         return render(request, 'login.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
         operation = request.POST.get('operation', '')
 
         if operation == "signIn":
@@ -141,21 +146,18 @@ def user_logout(request):
 
 
 def user_list(request):
-    form = {}
-    form['page_no'] = 1
-    form['page_size'] = 5
-    form['list'] = []
-
     if request.method == "GET":
+        form = init_form()
         user_service = UserService()
         user_list = user_service.search(form)
         form['list'] = user_list
         form['index'] = (form['page_no'] - 1) * form['page_size']
-        form['has_previous'] = form['page_no'] == 1
-        form['has_next'] = len(user_list) < 5
+        form['has_previous'] = form['page_no'] != 1
+        form['has_next'] = not (len(user_list) < 5)
         return render(request, "userlist.html", {"form": form})
 
     if request.method == "POST":
+        form = init_form()
         if request.POST.get('operation', '') == "next":
             form['page_no'] = int(request.POST['pageNo'])
             form['page_no'] += 1
@@ -169,8 +171,8 @@ def user_list(request):
         user_list = user_service.search(form)
         form['list'] = user_list
         form['index'] = (form['page_no'] - 1) * form['page_size']
-        form['has_previous'] = form['page_no'] == 1
-        form['has_next'] = len(user_list) < 5
+        form['has_previous'] = form['page_no'] != 1
+        form['has_next'] = not (len(user_list) < 5)
 
         return render(request, "userlist.html", {"form": form})
 
@@ -181,9 +183,8 @@ def delete_user(request, id=0):
 
 
 def user_save(request, id=0):
-    form = init_form()
-
     if request.method == "GET":
+        form = init_form()
         if id > 0:
             user_service = UserService()
             user_data = user_service.get(id)
@@ -191,6 +192,7 @@ def user_save(request, id=0):
         return render(request, 'user.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
         operation = request.POST.get('operation', '')
         user_service = UserService()
 

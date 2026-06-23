@@ -12,6 +12,9 @@ def init_form():
     form['message'] = ''
     form['error'] = False
     form['input_error'] = {}
+    form['page_no'] = 1
+    form['page_size'] = 5
+    form['list'] = []
     return form
 
 
@@ -91,12 +94,12 @@ def welcome(request):
 
 
 def user_signup(request):
-    form = init_form()
-
     if request.method == "GET":
+        form = init_form()
         return render(request, 'registration.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
         form.update(request_to_form(request))
         form['input_error'] = user_signup_validate(request)
 
@@ -115,12 +118,12 @@ def user_signup(request):
 
 
 def user_signin(request):
-    form = init_form()
-
     if request.method == "GET":
+        form = init_form()
         return render(request, 'login.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
         operation = request.POST.get('operation', '')
 
         if operation == "signIn":
@@ -158,19 +161,15 @@ def user_logout(request):
 
 
 def user_list(request):
-    form = {}
-    form['page_no'] = 1
-    form['page_size'] = 5
-    form['list'] = []
-
     if request.method == "GET":
+        form = init_form()
         user_service = UserService()
         user_list = user_service.search(form)
         form['list'] = user_list
-        form['start_index'] = (form['page_no'] - 1) * form['page_size']
-        return render(request, "userlist_master.html", {"form": form})
+        return render(request, "userlist.html", {"form": form})
 
     if request.method == "POST":
+        form = init_form()
         if request.POST.get('operation', '') == "next":
             form['page_no'] = int(request.POST['pageNo'])
             form['page_no'] += 1
@@ -183,9 +182,8 @@ def user_list(request):
         user_service = UserService()
         user_list = user_service.search(form)
         form['list'] = user_list
-        form['start_index'] = (form['page_no'] - 1) * form['page_size']
 
-        return render(request, "userlist_master.html", {"form": form})
+        return render(request, "userlist.html", {"form": form})
 
 
 def delete_user(request, id=0):
@@ -195,9 +193,8 @@ def delete_user(request, id=0):
 
 
 def user_save(request, id=0):
-    form = init_form()
-
     if request.method == "GET":
+        form = init_form()
         if id > 0:
             user_service = UserService()
             user_data = user_service.get(id)
@@ -205,6 +202,7 @@ def user_save(request, id=0):
         return render(request, 'user.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
         operation = request.POST.get('operation', '')
         user_service = UserService()
 

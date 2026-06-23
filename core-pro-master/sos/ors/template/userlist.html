@@ -52,11 +52,11 @@
     <table style="width: 100%">
         <tr>
             <td style="width: 25%">
-                <input type="submit" name="operation" value="previous" {% if form.has_previous %} disabled {% endif %}>
+                <input type="submit" name="operation" value="previous" {% if not form.has_previous %} disabled {% endif %}>
             </td>
             <td align="center" style="width: 50%"><b>Page : {{form.page_no}}</b></td>
             <td style="width: 25%" align="right">
-                <input type="submit" name="operation" value="next" {% if form.has_next %} disabled {% endif %}>
+                <input type="submit" name="operation" value="next" {% if not form.has_next %} disabled {% endif %}>
             </td>
         </tr>
     </table>

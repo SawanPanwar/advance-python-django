@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include "header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>User List</h1>
+    </div>
+    {% if form.list|length > 0 %}
+    <div align="center">
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td><input type="text" name="firstName" placeholder="enter first name here"
+                           value="{{ form.first_name }}"></td>
+                <td><input type="submit" name="operation" value="search"></td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <table border="1%" width="100%">
+        <tr>
+            <th>S. No.</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>LoginId</th>
+            <th>Password</th>
+            <th>DOB</th>
+            <th>Address</th>
+            <th>Edit | Delete</th>
+        </tr>
+        {% for l in form.list %}
+        <tr>
+            <td align="center">{{ form.index|add:forloop.counter }}</td>
+            <td align="center">{{ l.first_name }}</td>
+            <td align="center">{{ l.last_name }}</td>
+            <td align="center">{{ l.login_id }}</td>
+            <td align="center">{{ l.password }}</td>
+            <td align="center">{{ l.dob }}</td>
+            <td align="center">{{ l.address }}</td>
+            <td align="center"><a href="/ors/User/edit/{{l.id}}/">edit</a> | <a href="/ors/UserList/delete/{{l.id}}/">delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 25%">
+                <input type="submit" name="operation" value="previous" {% if not form.has_previous %} disabled {% endif %}>
+            </td>
+            <td align="center" style="width: 50%"><b>Page : {{form.page_no}}</b></td>
+            <td style="width: 25%" align="right">
+                <input type="submit" name="operation" value="next" {% if not form.has_next %} disabled {% endif %}>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="pageNo" value="{{form.page_no}}">
+    {% else %}
+    <div align="center">
+        <font color="red"><h3>No Record Found</h3></font>
+        <input type="submit" value="back">
+    </div>
+    {% endif %}
+</form>
+{% include 'footer.html' %}
+</body>
+</html>

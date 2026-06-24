@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'header.html' %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1 style="margin-bottom: -10px; color: navy;">
+            {% if form.id > 0 %}
+            Update User
+            {% else %}
+            Add User
+            {% endif %}
+        </h1>
+        <div style="height: 30px;">
+            {% if form.error %}
+            <h3><font color="red">{{ form.message }}</font></h3>
+            {% else %}
+            <h3><font color="green">{{ form.message }}</font></h3>
+            {% endif %}
+        </div>
+        <input type="hidden" name="id" value="{{ form.id }}">
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td><input type="text" name="firstName" value="{{ form.first_name }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.first_name }}</font></td>
+            </tr>
+            <tr>
+                <th>Last Name:</th>
+                <td><input type="text" name="lastName" value="{{ form.last_name }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.last_name }}</font></td>
+            </tr>
+            <tr>
+                <th>Login ID:</th>
+                <td><input type="text" name="loginId" value="{{ form.login_id }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.login_id }}</font></td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input type="text" name="password" value="{{ form.password }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.password }}</font></td>
+            </tr>
+            <tr>
+                <th>DOB:</th>
+                <td><input type="date" name="dob" value="{{ form.dob }}" style="width:98%"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.dob }}</font></td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td><input type="text" name="address" value="{{ form.address }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.address }}</font></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    {% if form.id > 0 %}
+                    <input type="submit" name="operation" value="update">
+                    <input type="submit" name="operation" value="list">
+                    {% else %}
+                    <input type="submit" name="operation" value="save">
+                    <input type="submit" name="operation" value="reset">
+                    <button><a href="/ors/User/">rrr</a></button>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+{% include 'footer.html' %}
+</body>
+</html>

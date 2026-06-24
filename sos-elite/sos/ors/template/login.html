@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'header.html' %}
+<form  method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1 style="margin-bottom: -10px; color: navy;">Login</h1>
+        <div style="height: 30px;">
+            {% if form.error %}
+            <h3><font color="red">{{ form.message }}</font></h3>
+            {% else %}
+            <h3><font color="green">{{ form.message }}</font></h3>
+            {% endif %}
+        </div>
+        <table>
+            <tr>
+                <th>Login ID:</th>
+                <td><input type="text" name="loginId" value="{{ form.login_id }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.login_id }}</font></td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input type="text" name="password" value="{{ form.password }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.password }}</font></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="submit" name="operation" value="signIn">
+                    <input type="submit" name="operation" value="signUp">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <input type="hidden" name="uri" value="{{ uri }}">
+</form>
+{% include 'footer.html' %}
+</body>
+</html>

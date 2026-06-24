@@ -11,3 +11,11 @@ class User(models.Model):
 
     class Meta:
         db_table = 'sos_user'
+
+
+class Role(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+
+    class Meta:
+        db_table = "sos_role"

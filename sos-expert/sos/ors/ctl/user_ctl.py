@@ -74,7 +74,6 @@ class UserCtl:
     def submit(self, request):
 
         operation = request.POST.get('operation', '')
-        user_service = UserService()
 
         if operation == 'save':
             self.request_to_form(request)
@@ -84,7 +83,7 @@ class UserCtl:
 
             try:
                 user = self.form_to_model(User())
-                user_service.save(user)
+                UserService().save(user)
                 self.form['message'] = 'User Added Successfully...!!!'
             except Exception as e:
                 self.form['message'] = str(e)
@@ -100,7 +99,7 @@ class UserCtl:
 
             try:
                 user = self.form_to_model(User())
-                user_service.save(user)
+                UserService().save(user)
                 self.form['message'] = 'User Updated Successfully...!!!'
             except Exception as e:
                 self.form['message'] = str(e)

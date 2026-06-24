@@ -4,6 +4,8 @@ from .ctl.login_ctl import LoginCtl
 from .ctl.welcome_ctl import WelcomeCtl
 from .ctl.user_ctl import UserCtl
 from .ctl.user_list_ctl import UserListCtl
+from .ctl.role_ctl import RoleCtl
+from .ctl.role_list_ctl import RoleListCtl
 
 
 def welcome(request):

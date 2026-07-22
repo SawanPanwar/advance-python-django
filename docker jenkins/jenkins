@@ -1,0 +1,87 @@
+pipeline {
+    agent any
+
+    environment {
+        PYTHON = "C:\\Users\\himan\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
+        VENV = "venv"
+        PROJECT = "SOS_django_projects"
+    }
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/HimanshuAmlavad/sos_project_20.git'
+            }
+        }
+
+        stage('Check Workspace') {
+            steps {
+                bat '''
+                cd
+                dir
+                dir /s requirements.txt
+                dir /s manage.py
+                '''
+            }
+        }
+
+        stage('Create Virtual Environment') {
+            steps {
+                bat '''
+                "%PYTHON%" -m venv %VENV%
+                '''
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir("${PROJECT}") {
+                    bat '''
+                    call ..\\%VENV%\\Scripts\\activate.bat
+                    python -m pip install --upgrade pip
+                    python -m pip install -r requirements.txt
+                    '''
+                }
+            }
+        }
+
+        stage('Run Migrations') {
+            steps {
+                dir("${PROJECT}") {
+                    bat '''
+                    call ..\\%VENV%\\Scripts\\activate.bat
+                    python manage.py makemigrations
+                    python manage.py migrate
+                    '''
+                }
+            }
+        }
+
+        stage('Run Django Server') {
+            steps {
+                dir("${PROJECT}") {
+                    bat '''
+                    call ..\\%VENV%\\Scripts\\activate.bat
+                    python manage.py runserver 0.0.0.0:8000
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline Completed'
+        }
+
+        success {
+            echo 'Django Project Started Successfully'
+        }
+
+        failure {
+            echo 'Pipeline Failed'
+        }
+    }
+}

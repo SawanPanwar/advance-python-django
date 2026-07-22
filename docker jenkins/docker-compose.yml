@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    image: sos_django_projects-web:latest
+    container_name: sos_django_projects-web-1
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: database
+      DB_NAME: project_20
+      DB_USER: django_user
+      DB_PASSWORD: django_pass
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+
+  database:
+    image: mysql:8.0
+    container_name: sos_django_projects-db-1
+    environment:
+      MYSQL_DATABASE: project_20
+      MYSQL_USER: django_user
+      MYSQL_PASSWORD: django_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+#docker exec -it sos_django_projects-web-1 bash

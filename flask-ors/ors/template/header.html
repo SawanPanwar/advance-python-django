@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+
+<body>
+
+{% if session.get('first_name') %}
+
+<h3>Hi, {{ session.get('first_name') }}</h3>
+
+<a href="/User/"><b>Add User</b></a> <b>|</b>
+<a href="/UserList/"><b>User List</b></a> <b>|</b>
+<a href="/Role/"><b>Add Role</b></a> <b>|</b>
+<a href="/RoleList/"><b>Role List</b></a> <b>|</b>
+<a href="/logout/"><b>Logout</b></a>
+
+{% else %}
+
+<h3>Hi, Guest</h3>
+
+<a href="/Welcome/"><b>Welcome</b></a> <b>|</b>
+<a href="/Login/"><b>Login</b></a>
+
+{% endif %}
+
+<hr>
+
+</body>
+</html>

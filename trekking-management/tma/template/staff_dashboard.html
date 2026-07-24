@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+</head>
+
+<body>
+
+{% include "header.html" %}
+
+
+<div align="center">
+
+    <h1 style="color:navy;">
+        Staff Dashboard
+    </h1>
+
+
+    <table border="1" width="80%">
+
+        <tr>
+
+            <td align="center">
+                <h3>Assigned Treks</h3>
+                <h1>{{ form.assigned_trek }}</h1>
+            </td>
+
+
+            <td align="center">
+                <h3>Total Participants</h3>
+                <h1>{{ form.participant_count }}</h1>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+    <br><br>
+
+
+    <table border="1" width="80%">
+
+        <tr>
+            <th colspan="3">
+                Staff Actions
+            </th>
+        </tr>
+
+
+        <tr>
+
+            <td align="center">
+                <a href="/StaffTrekList/">
+                    My Assigned Treks
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/ParticipantList/">
+                    View Participants
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/Profile/">
+                    Edit Profile
+                </a>
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td align="center">
+                <a href="/BookingList/">
+                    Booking List
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/logout/">
+                    Logout
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/Welcome/">
+                    Home
+                </a>
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+</div>
+
+
+{% include "footer.html" %}
+
+</body>
+</html>

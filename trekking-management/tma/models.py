@@ -23,7 +23,7 @@ class User(BaseModel, DropdownItem):
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-
+    dob = db.Column(db.Date)
     mobile = db.Column(db.String(15))
     gender = db.Column(db.String(20))
     address = db.Column(db.String(255))
@@ -77,7 +77,11 @@ class StaffAssignment(BaseModel):
 
     trek_id = db.Column(db.Integer, db.ForeignKey("tm_trek.id"), nullable=False)
 
+    trek_name = db.Column(db.String(50), nullable=False)
+
     staff_id = db.Column(db.Integer, db.ForeignKey("tm_user.id"), nullable=False)
+
+    staff_name = db.Column(db.String(50), nullable=False)
 
     assigned_date = db.Column(db.Date)
 
@@ -89,7 +93,11 @@ class Booking(BaseModel):
 
     user_id = db.Column(db.Integer, db.ForeignKey("tm_user.id"), nullable=False)
 
+    user_name = db.Column(db.String(50), nullable=False)
+
     trek_id = db.Column(db.Integer, db.ForeignKey("tm_trek.id"), nullable=False)
+
+    trek_name = db.Column(db.String(50), nullable=False)
 
     booking_date = db.Column(db.Date)
 

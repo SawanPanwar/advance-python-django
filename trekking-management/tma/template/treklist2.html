@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trek List</title>
+</head>
+<body>
+
+{% include "header.html" %}
+
+<form method="POST">
+
+    <div align="center">
+        <h1>Trek List</h1>
+    </div>
+
+    {% if page_list|length > 0 %}
+
+    <div align="center">
+        <table>
+            <tr>
+                <th>Trek Name:</th>
+                <td>
+                    <input type="text" name="trekName"
+                           placeholder="Enter Trek Name"
+                           value="{{ form.trek_name }}">
+                </td>
+                <td>
+                    <input type="submit" name="operation" value="search">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+
+    <table border="1" width="100%">
+        <tr>
+            <th>S. No.</th>
+            <th>Trek Name</th>
+            <th>Location</th>
+            <th>Difficulty</th>
+            <th>Duration</th>
+            <th>Total Slots</th>
+            <th>Available Slots</th>
+            <th>Price</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Edit | Delete</th>
+            <th>Book</th>
+            <th>Assigned To</th>
+        </tr>
+
+        {% for l in page_list %}
+
+        <tr>
+            <td align="center">{{ form.index + loop.index }}</td>
+            <td align="center">{{ l.trek_name }}</td>
+            <td align="center">{{ l.location }}</td>
+            <td align="center">{{ l.difficulty }}</td>
+            <td align="center">{{ l.duration }}</td>
+            <td align="center">{{ l.total_slots }}</td>
+            <td align="center">{{ l.available_slots }}</td>
+            <td align="center">{{ l.price }}</td>
+            <td align="center">{{ l.start_date }}</td>
+            <td align="center">{{ l.end_date }}</td>
+            <td align="center">{{ l.status }}</td>
+
+            <td align="center">
+                <a href="/Trek/edit/{{ l.id }}/">Edit</a> |
+                <a href="/TrekList/delete/{{ l.id }}/">Delete</a>
+            </td>
+
+            <td align="center">
+                <a href="/Booking/create/{{ l.id }}/">Book</a>
+            </td>
+
+            <td align="center">
+                <a href="/StaffAssignment/create/{{ l.id }}/">Assigned To</a>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <table width="100%">
+        <tr>
+
+            <td width="25%">
+                <input type="submit"
+                       name="operation"
+                       value="previous"
+                       {% if not form.has_previous %}disabled{% endif %}>
+            </td>
+
+            <td align="center" width="50%">
+                <b>Page : {{ form.page_no }}</b>
+            </td>
+
+            <td align="right" width="25%">
+                <input type="submit"
+                       name="operation"
+                       value="next"
+                       {% if not form.has_next %}disabled{% endif %}>
+            </td>
+
+        </tr>
+    </table>
+
+    <input type="hidden" name="pageNo" value="{{ form.page_no }}">
+
+    {% else %}
+
+    <div align="center">
+        <h3 style="color:red;">No Record Found</h3>
+        <input type="submit" name="operation" value="back">
+    </div>
+
+    {% endif %}
+
+</form>
+
+{% include "footer.html" %}
+
+</body>
+</html>

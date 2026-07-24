@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trek List</title>
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial,sans-serif;
+        }
+
+
+        .header{
+
+            height:70px;
+            border-bottom:1px solid #ddd;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 30px;
+
+        }
+
+
+        .logo{
+
+            font-size:22px;
+            font-weight:bold;
+
+        }
+
+
+        .sidebar {
+
+            width: 220px;
+            height: calc(100vh - 70px);
+            border-right: 1px solid #ddd;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            padding-top: 20px;
+        }
+
+
+        .sidebar a{
+
+            display:block;
+            padding:15px 30px;
+            text-decoration:none;
+            color:#333;
+
+        }
+
+
+        .sidebar a:hover{
+
+            background:#eef3ff;
+            color:blue;
+
+        }
+
+
+
+        .content{
+
+            margin-left:220px;
+            padding:30px;
+
+        }
+
+
+
+        .top{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+        }
+
+
+
+        .add{
+
+            background:#1468e8;
+            color:white;
+            padding:12px 20px;
+            text-decoration:none;
+            border-radius:5px;
+
+        }
+
+
+
+        .search{
+
+            width:100%;
+            padding:12px;
+            margin:20px 0;
+            border:1px solid #ccc;
+
+        }
+
+
+
+        table{
+
+            width:100%;
+            border-collapse:collapse;
+
+        }
+
+
+        th{
+
+            background:#eeeeee;
+
+        }
+
+
+        th,td{
+
+            padding:12px;
+            border:1px solid #ddd;
+            text-align:center;
+
+        }
+
+
+
+        .action a{
+
+            text-decoration:none;
+            margin:5px;
+
+        }
+
+
+
+        .pagination{
+
+            text-align:right;
+            margin-top:20px;
+
+        }
+
+
+        .pagination a{
+
+            border:1px solid #ddd;
+            padding:8px 12px;
+            text-decoration:none;
+
+        }
+
+
+        .active{
+
+            background:#1468e8;
+            color:white;
+
+        }
+
+
+    </style>
+</head>
+<body>
+
+{% include "header.html" %}
+
+<div class="sidebar">
+
+    <a href="/AdminDashboard/">🏠 Dashboard</a>
+
+    <a href="/TrekList/">⛰ Treks</a>
+
+    <a href="/StaffList/">👤 Staff</a>
+
+    <a href="/UserList/">👥 Users</a>
+
+    <a href="/BookingList/">📅 Bookings</a>
+
+</div>
+
+
+<div class="content">
+
+
+    <div class="top">
+
+
+        <h1>
+            Treks
+        </h1>
+
+
+        <a class="add" href="/Trek/">
+            + Add New Trek
+        </a>
+
+
+    </div>
+
+
+    <form method="POST">
+
+        <input class="search"
+               type="text"
+               name="trekName"
+               placeholder="Search treks..."
+               value="{{ form.trek_name }}">
+
+
+        <input type="submit"
+               name="operation"
+               value="search">
+
+
+    </form>
+
+
+    <table>
+
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Trek Name</th>
+
+            <th>Location</th>
+
+            <th>Difficulty</th>
+
+            <th>Slots</th>
+
+            <th>Status</th>
+
+            <th>Actions</th>
+
+        </tr>
+
+
+        {% for l in page_list %}
+
+
+        <tr>
+
+
+            <td>{{ l.id }}</td>
+
+
+            <td>{{ l.trek_name }}</td>
+
+
+            <td>{{ l.location }}</td>
+
+
+            <td>{{ l.difficulty }}</td>
+
+
+            <td>{{ l.available_slots }}</td>
+
+
+            <td>{{ l.status }}</td>
+
+
+            <td class="action">
+
+                <a href="/Trek/edit/{{l.id}}/">
+                    ✏️
+                </a>
+
+
+                <a href="/TrekList/delete/{{l.id}}/">
+                    🗑
+                </a>
+
+
+            </td>
+
+
+        </tr>
+
+
+        {% endfor %}
+
+
+    </table>
+
+
+    <div class="pagination">
+
+
+        <a href="#"
+           {% if not form.has_previous %}
+           style="pointer-events:none;"
+           {% endif %}>
+            ‹
+        </a>
+
+
+        <a class="active">
+            {{form.page_no}}
+        </a>
+
+
+        <a href="#">
+            2
+        </a>
+
+
+        <a href="#">
+            3
+        </a>
+
+
+        <a href="#">
+            ›
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</body>
+</html>

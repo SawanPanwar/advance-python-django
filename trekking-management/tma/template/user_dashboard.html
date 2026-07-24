@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+</head>
+
+<body>
+
+{% include "header.html" %}
+
+
+<div align="center">
+
+    <h1 style="color:navy;">
+        User Dashboard
+    </h1>
+
+
+    <table border="1" width="80%">
+
+        <tr>
+
+            <td align="center">
+                <h3>Available Treks</h3>
+                <h1>{{ form.available_trek }}</h1>
+            </td>
+
+
+            <td align="center">
+                <h3>My Bookings</h3>
+                <h1>{{ form.my_booking }}</h1>
+            </td>
+
+
+            <td align="center">
+                <h3>Completed Treks</h3>
+                <h1>{{ form.completed_trek }}</h1>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+    <br><br>
+
+
+    <table border="1" width="80%">
+
+        <tr>
+            <th colspan="4">
+                User Actions
+            </th>
+        </tr>
+
+
+        <tr>
+
+            <td align="center">
+                <a href="/TrekList/">
+                    Browse Treks
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/BookingList/">
+                    My Bookings
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/Profile/">
+                    Edit Profile
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/logout/">
+                    Logout
+                </a>
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td align="center">
+                <a href="/TrekHistory/">
+                    Trek History
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/Welcome/">
+                    Home
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/ChangePassword/">
+                    Change Password
+                </a>
+            </td>
+
+
+            <td align="center">
+                <a href="/Contact/">
+                    Contact
+                </a>
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+
+{% include "footer.html" %}
+
+</body>
+</html>

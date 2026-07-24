@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking</title>
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<form method="POST">
+
+<div align="center">
+
+<h1 style="margin-bottom:-10px;color:navy;">
+{% if form.id > 0 %}
+Update Booking
+{% else %}
+Add Booking
+{% endif %}
+</h1>
+
+<div style="height:30px;">
+{% if form.error %}
+<h3><font color="red">{{ form.message }}</font></h3>
+{% else %}
+<h3><font color="green">{{ form.message }}</font></h3>
+{% endif %}
+</div>
+
+<input type="hidden" name="id" value="{{ form.id }}">
+
+<table>
+
+<tr>
+<th>User:</th>
+<td>
+{{ preload_data.user_select|safe }}
+</td>
+<td style="position:fixed;">
+<font color="red">{{ form.input_error.user_id }}</font>
+</td>
+</tr>
+
+<tr>
+<th>Trek:</th>
+<td>
+{{ preload_data.trek_select|safe }}
+</td>
+<td style="position:fixed;">
+<font color="red">{{ form.input_error.trek_id }}</font>
+</td>
+</tr>
+
+<tr>
+<th>Booking Date:</th>
+<td>
+<input type="date" name="bookingDate" value="{{ form.booking_date }}" style="width:98%">
+</td>
+<td style="position:fixed;">
+<font color="red">{{ form.input_error.booking_date }}</font>
+</td>
+</tr>
+
+<tr>
+<th>Booking Status:</th>
+<td>
+{{ preload_data.booking_status_select|safe }}
+</td>
+<td style="position:fixed;">
+<font color="red">{{ form.input_error.booking_status }}</font>
+</td>
+</tr>
+
+<tr>
+<th>Payment Status:</th>
+<td>
+{{ preload_data.payment_status_select|safe }}
+</td>
+<td style="position:fixed;">
+<font color="red">{{ form.input_error.payment_status }}</font>
+</td>
+</tr>
+
+<tr>
+<th>Remarks:</th>
+<td>
+<textarea name="remarks" rows="4" cols="22">{{ form.remarks }}</textarea>
+</td>
+</tr>
+
+<tr>
+<th></th>
+<td>
+
+{% if form.id > 0 %}
+
+<input type="submit" name="operation" value="update">
+
+<button>
+<a href="/BookingList/">List</a>
+</button>
+
+{% else %}
+
+<input type="submit" name="operation" value="save">
+
+<button>
+<a href="/Booking/">Reset</a>
+</button>
+
+{% endif %}
+
+</td>
+</tr>
+
+</table>
+
+</div>
+
+</form>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

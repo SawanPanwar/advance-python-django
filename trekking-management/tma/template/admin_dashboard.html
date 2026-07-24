@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        .header {
+            height: 70px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #222;
+        }
+
+
+        .admin {
+            font-weight: bold;
+        }
+
+
+        .sidebar {
+
+            width: 220px;
+            height: calc(100vh - 70px);
+            border-right: 1px solid #ddd;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            padding-top: 20px;
+        }
+
+
+        .sidebar a {
+
+            display: block;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+
+        }
+
+
+        .sidebar a:hover {
+
+            background: #eef3ff;
+            color: blue;
+
+        }
+
+
+        .content {
+
+            margin-left: 220px;
+            padding: 30px;
+
+        }
+
+
+        h1 {
+
+            color: #222;
+
+        }
+
+
+        .cards {
+
+            display: flex;
+            gap: 20px;
+
+        }
+
+
+        .card {
+
+            width: 220px;
+            height: 110px;
+            border: 1px solid #ddd;
+            padding: 20px;
+
+        }
+
+
+        .card h3 {
+
+            margin: 0;
+            font-size: 16px;
+
+        }
+
+
+        .card h2 {
+
+            font-size: 35px;
+            margin-top: 20px;
+
+        }
+
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+
+        }
+
+
+        th {
+
+            background: #eeeeee;
+
+        }
+
+
+        th, td {
+
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+
+        }
+
+
+        .view {
+
+            float: right;
+            margin-top: 15px;
+            color: blue;
+            text-decoration: none;
+
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+{% include "header.html" %}
+
+<div class="sidebar">
+
+    <a href="/AdminDashboard/">🏠 Dashboard</a>
+
+    <a href="/TrekList/">⛰ Treks</a>
+
+    <a href="/StaffList/">👤 Staff</a>
+
+    <a href="/UserList/">👥 Users</a>
+
+    <a href="/BookingList/">📅 Bookings</a>
+
+</div>
+
+
+<div class="content">
+
+
+    <h1>Admin Dashboard</h1>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>Total Treks</h3>
+
+            <h2>{{ form.total_trek }}</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Users</h3>
+
+            <h2>{{ form.total_user }}</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Staff</h3>
+
+            <h2>{{ form.total_staff }}</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Bookings</h3>
+
+            <h2>{{ form.total_booking }}</h2>
+
+        </div>
+
+
+    </div>
+
+
+    <h2 style="margin-top:40px;">
+        Recent Bookings
+    </h2>
+
+
+    <table>
+
+
+        <tr>
+
+            <th>Booking ID</th>
+
+            <th>User</th>
+
+            <th>Trek</th>
+
+            <th>Booking Date</th>
+
+            <th>Status</th>
+
+        </tr>
+
+
+        {% for b in page_list %}
+
+        <tr>
+
+            <td>{{ b.id }}</td>
+
+            <td>{{ b.user_name }}</td>
+
+            <td>{{ b.trek_name }}</td>
+
+            <td>{{ b.booking_date }}</td>
+
+            <td>{{ b.booking_status }}</td>
+
+        </tr>
+
+
+        {% endfor %}
+
+
+    </table>
+
+
+    <a class="view" href="/BookingList/">
+        View All Bookings →
+    </a>
+
+
+</div>
+
+{% include "footer.html" %}
+</body>
+</html>

@@ -1,13 +1,40 @@
 from flask import Blueprint, render_template, redirect, request, session, Response
 
+from .ctl.admin_dashboard_ctl import AdminDashboardCtl
+from .ctl.booking_list_ctl import BookingListCtl
+from .ctl.staff_dashboard_ctl import StaffDashboardCtl
+from .ctl.user_dashboard_ctl import UserDashboardCtl
 from .ctl.welcome_ctl import WelcomeCtl
+from .ctl.trek_ctl import TrekCtl
+from .ctl.registration_ctl import RegistrationCtl
+from .ctl.login_ctl import LoginCtl
+from .ctl.dashboard_ctl import DashboardCtl
+from .ctl.trek_list_ctl import TrekListCtl
+from .ctl.user_list_ctl import UserListCtl
 from .ctl.user_ctl import UserCtl
+from .ctl.booking_ctl import BookingCtl
+from .ctl.staff_assignment_ctl import StaffAssignmentCtl
+from .ctl.staff_assignment_list_ctl import StaffAssignmentListCtl
 
 main_bp = Blueprint("main", __name__)
 
 controller_map = {
     "Welcome": WelcomeCtl,
+    "Trek": TrekCtl,
+    "TrekList": TrekListCtl,
+    "Login": LoginCtl,
+    "Registration": RegistrationCtl,
+    "Dashboard": DashboardCtl,
+    "UserList": UserListCtl,
     "User": UserCtl,
+    "Booking": BookingCtl,
+    "BookingList": BookingListCtl,
+    "StaffAssignment": StaffAssignmentCtl,
+    "StaffAssignmentList": StaffAssignmentListCtl,
+
+    "AdminDashboard": AdminDashboardCtl,
+    "StaffDashboard": StaffDashboardCtl,
+    "UserDashboard": UserDashboardCtl,
 }
 
 

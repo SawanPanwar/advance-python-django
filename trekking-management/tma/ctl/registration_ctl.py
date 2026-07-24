@@ -1,5 +1,4 @@
 from flask import render_template
-from datetime import datetime
 
 from .base_ctl import BaseCtl
 from ..models import User
@@ -8,13 +7,12 @@ from ..utility.data_validator import DataValidator
 from ..utility.html_utility import HtmlUtility
 
 
-class UserCtl(BaseCtl):
+class RegistrationCtl(BaseCtl):
 
     def preload(self, request):
-
         gender_list = ["Male", "Female"]
-        role_list = ["Admin", "Staff", "User"]
-        status_list = ["Pending", "Approved", "Active", "Blacklisted"]
+
+        role_list = ["Staff", "User"]
 
         self.preload_data["gender_select"] = HtmlUtility.get_list_from_list(
             "gender",
@@ -26,12 +24,6 @@ class UserCtl(BaseCtl):
             "role",
             self.form.get("role"),
             role_list
-        )
-
-        self.preload_data["status_select"] = HtmlUtility.get_list_from_list(
-            "status",
-            self.form.get("status"),
-            status_list
         )
 
         return self.preload_data
@@ -84,34 +76,33 @@ class UserCtl(BaseCtl):
             input_error['role_id'] = 'Role is required'
             input_error['error'] = True
 
-        if DataValidator.is_null(self.form['status']) or request.form.get("status") == "0":
-            input_error['status'] = 'Status is required'
-            input_error['error'] = True
-
         return input_error["error"]
 
     def request_to_form(self, request):
-
         self.form["id"] = int(request.form.get("id", 0))
         self.form["first_name"] = request.form.get("firstName", "")
         self.form["last_name"] = request.form.get("lastName", "")
         self.form["email"] = request.form.get("email", "")
         self.form["password"] = request.form.get("password", "")
-        self.form["dob"] = request.form.get("dob", "")
+        self.form['dob'] = request.form.get("dob", "")
         self.form["mobile"] = request.form.get("mobile", "")
         self.form["gender"] = request.form.get("gender", "")
         self.form["address"] = request.form.get("address", "")
         self.form["role"] = request.form.get("role", "")
-        self.form["status"] = request.form.get("status", "")
+
+        if self.form["role"] == "Staff":
+            self.form["status"] = "Pending"
+
+        elif self.form["role"] == "User":
+            self.form["status"] = "Active"
 
     def form_to_model(self, obj):
-
         obj.id = self.form["id"]
         obj.first_name = self.form["first_name"]
         obj.last_name = self.form["last_name"]
         obj.email = self.form["email"]
         obj.password = self.form["password"]
-        if self.form["dob"]: obj.dob = datetime.strptime(self.form["dob"], "%Y-%m-%d").date()
+        obj.dob = self.form['dob']
         obj.mobile = self.form["mobile"]
         obj.gender = self.form["gender"]
         obj.address = self.form["address"]
@@ -120,56 +111,26 @@ class UserCtl(BaseCtl):
 
         return obj
 
-    def model_to_form(self, obj):
-
-        self.form["id"] = obj.id
-        self.form["first_name"] = obj.first_name
-        self.form["last_name"] = obj.last_name
-        self.form["email"] = obj.email
-        self.form["password"] = obj.password
-        self.form["dob"] = obj.dob.strftime("%Y-%m-%d") if obj.dob else ""
-        self.form["mobile"] = obj.mobile
-        self.form["gender"] = obj.gender
-        self.form["address"] = obj.address
-        self.form["role"] = obj.role
-        self.form["status"] = obj.status
-
     def display(self, request, params={}):
-
-        return render_template(
-            self.get_template(),
-            form=self.form,
-            preload_data=self.preload(request)
-        )
+        return render_template(self.get_template(), form=self.form, preload_data=self.preload(request))
 
     def submit(self, request, params={}):
 
         try:
-
             user = self.form_to_model(User())
-
             self.get_service().save(user)
 
-            if self.form["id"] > 0:
-                self.form["message"] = "User Updated Successfully...!!!"
-            else:
-                self.form["message"] = "User Added Successfully...!!!"
-
-            self.form["error"] = False
+            self.form['message'] = 'User Registration Successfully...!!!'
+            self.form['error'] = False
 
         except Exception as e:
+            self.form['message'] = str(e)
+            self.form['error'] = True
 
-            self.form["message"] = str(e)
-            self.form["error"] = True
-
-        return render_template(
-            self.get_template(),
-            form=self.form,
-            preload_data=self.preload(request)
-        )
+        return render_template(self.get_template(), form=self.form, preload_data=self.preload(request))
 
     def get_service(self):
         return UserService()
 
     def get_template(self):
-        return "user.html"
+        return "registration.html"

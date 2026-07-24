@@ -1,3 +1,5 @@
+from .trek_service import TrekService
+from .user_service import UserService
 from ..models import StaffAssignment
 from ..utility.data_validator import DataValidator
 from .base_service import BaseService
@@ -12,6 +14,12 @@ class StaffAssignmentService(BaseService):
         return []
 
     def populate(self, obj):
+        staff = UserService().get(obj.staff_id)
+        obj.staff_name = staff.first_name + ' ' + staff.last_name
+
+        trek = TrekService().get(obj.trek_id)
+        obj.trek_name = trek.trek_name
+
         return obj
 
     def get_where_conditions(self, query, params):

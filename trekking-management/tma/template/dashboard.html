@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trekking Dashboard</title>
+</head>
+<body>
+
+{% include "header.html" %}
+
+<center>
+
+    <h1>Welcome {{ session['first_name'] }}</h1>
+    <h3>Trekking Management Dashboard</h3>
+
+    <table border="1" cellpadding="20" cellspacing="10">
+        <tr>
+            <td align="center">
+                <h3>My Profile</h3>
+                <p>Update your profile details</p>
+                <a href="/profile">Profile</a>
+            </td>
+
+            <td align="center">
+                <h3>Available Treks</h3>
+                <p>Explore available trekking events</p>
+                <a href="/treks">View Treks</a>
+            </td>
+
+            <td align="center">
+                <h3>My Bookings</h3>
+                <p>View booking history</p>
+                <a href="/bookings">Bookings</a>
+            </td>
+        </tr>
+    </table>
+
+</center>
+
+{% include "footer.html" %}
+
+</body>
+</html>

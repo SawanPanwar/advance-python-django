@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking List</title>
+</head>
+<body>
+
+{% include "header.html" %}
+
+<form method="POST">
+
+    <div align="center">
+        <h1>Booking List</h1>
+    </div>
+
+    {% if page_list|length > 0 %}
+
+    <div align="center">
+        <table>
+            <tr>
+                <th>Booking Status:</th>
+                <td>
+                    <input type="text"
+                           name="bookingStatus"
+                           placeholder="Enter Booking Status"
+                           value="{{ form.booking_status }}">
+                </td>
+
+                <td>
+                    <input type="submit" name="operation" value="search">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+
+    <table border="1" width="100%">
+        <tr>
+            <th>S. No.</th>
+            <th>User</th>
+            <th>Trek</th>
+            <th>Booking Date</th>
+            <th>Booking Status</th>
+            <th>Payment Status</th>
+            <th>Remarks</th>
+            <th>Edit | Delete</th>
+        </tr>
+
+        {% for l in page_list %}
+
+        <tr>
+            <td align="center">{{ form.index + loop.index }}</td>
+            <td align="center">{{ l.user_name }}</td>
+            <td align="center">{{ l.trek_name }}</td>
+            <td align="center">{{ l.booking_date }}</td>
+            <td align="center">{{ l.booking_status }}</td>
+            <td align="center">{{ l.payment_status }}</td>
+            <td align="center">{{ l.remarks }}</td>
+
+            <td align="center">
+                <a href="/Booking/edit/{{ l.id }}/">Edit</a> |
+                <a href="/BookingList/delete/{{ l.id }}/">Delete</a>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <table width="100%">
+        <tr>
+
+            <td width="25%">
+                <input type="submit"
+                       name="operation"
+                       value="previous"
+                       {% if not form.has_previous %}disabled{% endif %}>
+            </td>
+
+            <td align="center" width="50%">
+                <b>Page : {{ form.page_no }}</b>
+            </td>
+
+            <td align="right" width="25%">
+                <input type="submit"
+                       name="operation"
+                       value="next"
+                       {% if not form.has_next %}disabled{% endif %}>
+            </td>
+
+        </tr>
+    </table>
+
+    <input type="hidden" name="pageNo" value="{{ form.page_no }}">
+
+    {% else %}
+
+    <div align="center">
+        <h3 style="color:red;">No Record Found</h3>
+        <input type="submit" name="operation" value="back">
+    </div>
+
+    {% endif %}
+
+</form>
+
+{% include "footer.html" %}
+
+</body>
+</html>

@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .service.user_service import UserService
+
 
 # Create your views here.
 
@@ -17,16 +19,22 @@ def welcome(request):
 
 
 def user_signup(request):
-    print(request.GET.get('firstName'))
-    print(request.GET.get('lastName'))
-    print(request.GET.get('loginId'))
-    print(request.GET.get('password'))
-    print(request.GET.get('dob'))
-    print(request.GET.get('address'))
+    if request.method == "POST":
+        form = {}
+        form['first_name'] = request.POST.get('firstName')
+        form['last_name'] = request.POST.get('lastName')
+        form['login_id'] = request.POST.get('loginId')
+        form['password'] = request.POST.get('password')
+        form['dob'] = request.POST.get('dob')
+        form['address'] = request.POST.get('address')
+
+        service = UserService()
+        service.add(form)
+
     return render(request, 'registration.html')
 
 
 def user_signin(request):
-    print(request.GET.get('loginId'))
-    print(request.GET.get('password'))
+    print(request.POST.get('loginId'))
+    print(request.POST.get('password'))
     return render(request, 'login.html')

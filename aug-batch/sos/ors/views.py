@@ -1,17 +1,11 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .service.user_service import UserService
 
 
-# Create your views here.
-
 def test_ors(request):
     return HttpResponse('<h1>test ors app</h1>')
-
-
-def display(request):
-    return HttpResponse('<h1>this is ors display function</h1>')
 
 
 def welcome(request):
@@ -42,11 +36,17 @@ def user_signin(request):
         form['password'] = request.POST.get('password')
 
         service = UserService()
-        records = service.authenticate(form['login_id'], form['password'])
+        user_data = service.authenticate(form['login_id'], form['password'])
 
-        if len(records) > 0:
-            return render(request, 'welcome.html', {'firstName': records[0].get('first_name')})
+        if len(user_data) > 0:
+            request.session['first_name'] = user_data[0].get('first_name')
+            return render(request, 'welcome.html', {'name': user_data[0].get('first_name')})
         else:
             message = 'login & password invalid'
 
     return render(request, 'login.html', {'message': message})
+
+
+def user_logout(request):
+    request.session['first_name'] = None
+    return redirect('/ors/signin/')

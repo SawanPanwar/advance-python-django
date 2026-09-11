@@ -10,11 +10,12 @@
 <div align="center">
     <h1>Welcome to ORS App</h1>
 
-    {% if firstName == None %}
-    <h3>Welcome, Guest</h3>
+    {% if name == None %}
+    <h3>Hi, Guest</h3>
     {% else %}
-    <h3>Welcome, {{ firstName }}</h3>
+    <h3>Hi, {{ name }}</h3>
     {% endif %}
+
 </div>
 </body>
 </html>

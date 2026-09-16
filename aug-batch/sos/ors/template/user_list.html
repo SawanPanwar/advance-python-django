@@ -5,10 +5,21 @@
     <title>Title</title>
 </head>
 {% include 'header.html' %}
-<form>
+<form method="POST">
+    {% csrf_token %}
     <div align="center">
         <h1>User List</h1>
     </div>
+    <div align="center">
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td><input type="text" name="firstName" placeholder="enter first name here"></td>
+                <td><input type="submit" name="operation" value="search"></td>
+            </tr>
+        </table>
+    </div>
+    <br>
     <table border="1" width="100%">
         <tr>
             <th>Id</th>
@@ -31,6 +42,19 @@
         </tr>
         {% endfor %}
     </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 25%">
+                <input type="submit" name="operation" value="previous" {% if page_no == 1 %} disabled {% endif %}>
+            </td>
+            <td style="width: 75%"></td>
+            <td>
+                <input type="submit" name="operation" value="next" {% if list|length < 5 %} disabled {% endif %}>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="pageNo" value="{{page_no}}">
 </form>
 </body>
 </html>

@@ -120,7 +120,7 @@ class UserService:
         column_name = ("id", "first_name", "last_name", "login_id", "password", "dob", "address")
         res = []
         for x in result:
-            print({column_name[i]: x[i] for i, _ in enumerate(x)})
+            # print({column_name[i]: x[i] for i, _ in enumerate(x)})
             res.append({column_name[i]: x[i] for i, _ in enumerate(x)})
         connection.close()
         return res

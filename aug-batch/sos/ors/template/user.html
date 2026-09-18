@@ -6,38 +6,49 @@
 </head>
 <body>
 {% include 'header.html' %}
-<form method="POST">
+<form action="/ors/save/" method="POST">
     {% csrf_token %}
     <div align="center">
-        <h1>Add User</h1>
+        {% if data.id > 0 %}
+        <td><h1>Update User</h1></td>
+        {% else %}
+        <td><h1>Add User</h1></td>
+        {% endif %}
         <table>
             <tr>
+                <td><input type="hidden" name="id" value="{{ data.id }}"></td>
+            </tr>
+            <tr>
                 <th>First Name:</th>
-                <td><input type="text" name="firstName"></td>
+                <td><input type="text" name="firstName" value="{{ data.first_name }}"></td>
             </tr>
             <tr>
                 <th>Last Name:</th>
-                <td><input type="text" name="lastName"></td>
+                <td><input type="text" name="lastName" value="{{ data.last_name }}"></td>
             </tr>
             <tr>
                 <th>Login ID:</th>
-                <td><input type="text" name="loginId"></td>
+                <td><input type="text" name="loginId" value="{{ data.login_id }}"></td>
             </tr>
             <tr>
                 <th>Password:</th>
-                <td><input type="text" name="password"></td>
+                <td><input type="text" name="password" value="{{ data.password }}"></td>
             </tr>
             <tr>
                 <th>DOB:</th>
-                <td><input type="text" name="dob"></td>
+                <td><input type="text" name="dob" value="{{ data.dob }}"></td>
             </tr>
             <tr>
                 <th>Address:</th>
-                <td><input type="text" name="address"></td>
+                <td><input type="text" name="address" value="{{ data.address }}"></td>
             </tr>
             <tr>
                 <th></th>
+                {% if data.id > 0 %}
+                <td><input type="submit" value="update"></td>
+                {% else %}
                 <td><input type="submit" value="save"></td>
+                {% endif %}
             </tr>
         </table>
     </div>

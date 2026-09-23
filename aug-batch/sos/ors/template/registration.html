@@ -40,7 +40,7 @@
             </tr>
             <tr>
                 <th>DOB:</th>
-                <td><input type="text" name="dob" value="{{ form.dob }}"></td>
+                <td><input type="date" name="dob" value="{{ form.dob }}" style="width:98%"></td>
                 <td style="position: fixed;"><font color="red">{{ form.input_error.dob }}</font></td>
             </tr>
             <tr>
@@ -50,7 +50,10 @@
             </tr>
             <tr>
                 <th></th>
-                <td><input type="submit" value="signUp"></td>
+                <td>
+                    <input type="submit" name="operation" value="signUp">
+                    <input type="submit" name="operation" value="reset">
+                </td>
             </tr>
         </table>
     </div>

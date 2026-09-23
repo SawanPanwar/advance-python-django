@@ -57,22 +57,28 @@ def user_signup(request):
     form['input_error'] = {}
 
     if request.method == "POST":
-        form = {}
-        form['first_name'] = request.POST.get('firstName')
-        form['last_name'] = request.POST.get('lastName')
-        form['login_id'] = request.POST.get('loginId')
-        form['password'] = request.POST.get('password')
-        form['dob'] = request.POST.get('dob')
-        form['address'] = request.POST.get('address')
 
-        form['input_error'] = user_signup_validate(request)
+        if request.POST.get('operation', '') == "signUp":
+            form['first_name'] = request.POST.get('firstName')
+            form['last_name'] = request.POST.get('lastName')
+            form['login_id'] = request.POST.get('loginId')
+            form['password'] = request.POST.get('password')
+            form['dob'] = request.POST.get('dob')
+            form['address'] = request.POST.get('address')
 
-        if not form['input_error']['error']:
-            service = UserService()
-            service.add(form)
-            form = {}
-            form['message'] = 'User Registration Successfully...!!!'
-            form['error'] = False
+            form['input_error'] = user_signup_validate(request)
+
+            if not form['input_error']['error']:
+                try:
+                    UserService().add(form)
+                    form['message'] = 'User Registration Successfully...!!!'
+                    form['error'] = False
+                except Exception as e:
+                    form['message'] = str(e)
+                    form['error'] = True
+
+        if request.POST.get('operation', '') == "reset":
+            return redirect('/ors/signup/')
 
     return render(request, 'registration.html', {'form': form})
 
@@ -84,22 +90,26 @@ def user_signin(request):
     form['input_error'] = {}
 
     if request.method == "POST":
-        form = {}
-        form['login_id'] = request.POST.get('loginId')
-        form['password'] = request.POST.get('password')
 
-        form['input_error'] = user_signin_validate(request)
+        if request.POST.get('operation', '') == "signIn":
+            form['login_id'] = request.POST.get('loginId')
+            form['password'] = request.POST.get('password')
 
-        if not form['input_error']['error']:
-            service = UserService()
-            user_data = service.authenticate(form['login_id'], form['password'])
+            form['input_error'] = user_signin_validate(request)
 
-            if len(user_data) > 0:
-                request.session['first_name'] = user_data[0].get('first_name')
-                return redirect('/ors/welcome/')
-            else:
-                form['message'] = 'Login ID & Password Invalid'
-                form['error'] = True
+            if not form['input_error']['error']:
+
+                user_data = UserService().authenticate(form['login_id'], form['password'])
+
+                if user_data:
+                    request.session['first_name'] = user_data[0].get('first_name')
+                    return redirect('/ors/welcome/')
+                else:
+                    form['message'] = 'Login ID & Password Invalid'
+                    form['error'] = True
+
+        if request.POST.get('operation', '') == "signUp":
+            return redirect('/ors/signup/')
 
     return render(request, 'login.html', {'form': form})
 

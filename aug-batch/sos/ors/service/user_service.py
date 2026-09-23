@@ -24,6 +24,11 @@ class UserService:
         dob = data['dob']
         address = data['address']
 
+        user_exist = self.find_by_login(login_id)
+
+        if len(user_exist) > 0:
+            raise Exception('Login ID already exist')
+
         cursor = connection.cursor()
         sql = "insert into sos_user values(%s, %s, %s, %s, %s, %s, %s)"
         data = (id, first_name, last_name, login_id, password, dob, address)

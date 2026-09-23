@@ -56,6 +56,9 @@ def user_signup(request):
     form['error'] = False
     form['input_error'] = {}
 
+    if request.method == "GET":
+        return render(request, 'registration.html', {'form': form})
+
     if request.method == "POST":
 
         if request.POST.get('operation', '') == "signUp":
@@ -68,19 +71,20 @@ def user_signup(request):
 
             form['input_error'] = user_signup_validate(request)
 
-            if not form['input_error']['error']:
-                try:
-                    UserService().add(form)
-                    form['message'] = 'User Registration Successfully...!!!'
-                    form['error'] = False
-                except Exception as e:
-                    form['message'] = str(e)
-                    form['error'] = True
+            if form['input_error']['error']:
+                return render(request, 'registration.html', {'form': form})
+
+            try:
+                UserService().add(form)
+                form['message'] = 'User Registration Successfully...!!!'
+                form['error'] = False
+            except Exception as e:
+                form['message'] = str(e)
+                form['error'] = True
+            return render(request, 'registration.html', {'form': form})
 
         if request.POST.get('operation', '') == "reset":
             return redirect('/ors/signup/')
-
-    return render(request, 'registration.html', {'form': form})
 
 
 def user_signin(request):
@@ -88,6 +92,9 @@ def user_signin(request):
     form['message'] = ''
     form['error'] = False
     form['input_error'] = {}
+
+    if request.method == "GET":
+        return render(request, 'login.html', {'form': form})
 
     if request.method == "POST":
 
@@ -97,21 +104,22 @@ def user_signin(request):
 
             form['input_error'] = user_signin_validate(request)
 
-            if not form['input_error']['error']:
+            if form['input_error']['error']:
+                return render(request, 'login.html', {'form': form})
 
-                user_data = UserService().authenticate(form['login_id'], form['password'])
+            user_data = UserService().authenticate(form['login_id'], form['password'])
 
-                if user_data:
-                    request.session['first_name'] = user_data[0].get('first_name')
-                    return redirect('/ors/welcome/')
-                else:
-                    form['message'] = 'Login ID & Password Invalid'
-                    form['error'] = True
+            if user_data:
+                request.session['first_name'] = user_data[0].get('first_name')
+                return redirect('/ors/welcome/')
+            else:
+                form['message'] = 'Login ID & Password Invalid'
+                form['error'] = True
+
+            return render(request, 'login.html', {'form': form})
 
         if request.POST.get('operation', '') == "signUp":
             return redirect('/ors/signup/')
-
-    return render(request, 'login.html', {'form': form})
 
 
 def user_logout(request):
@@ -134,6 +142,12 @@ def user_list(request):
     form = {}
     form['page_no'] = 1
     form['page_size'] = 5
+    form['list'] = []
+
+    if request.method == "GET":
+        form['list'] = UserService().search(form)
+        form['index'] = (form['page_no'] - 1) * form['page_size']
+        return render(request, "user_list.html", {"form": form})
 
     if request.method == "POST":
         if request.POST['operation'] == "next":
@@ -148,10 +162,9 @@ def user_list(request):
             form['page_no'] = 1
             form['first_name'] = request.POST.get('firstName')
 
-    service = UserService()
-    list = service.search(form)
-    index = (form['page_no'] - 1) * form['page_size']
-    return render(request, "user_list.html", {"list": list, 'page_no': form['page_no'], 'index': index})
+        form['list'] = UserService().search(form)
+        form['index'] = (form['page_no'] - 1) * form['page_size']
+        return render(request, "user_list.html", {"form": form})
 
 
 def delete_user(request, id=0):

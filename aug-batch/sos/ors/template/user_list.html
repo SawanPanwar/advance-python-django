@@ -31,9 +31,9 @@
             <th>Address</th>
             <th>Actions</th>
         </tr>
-        {% for l in list %}
+        {% for l in form.list %}
         <tr align="center">
-            <td>{{ index|add:forloop.counter }}</td>
+            <td>{{ form.index|add:forloop.counter }}</td>
             <td>{{ l.first_name }}</td>
             <td>{{ l.last_name }}</td>
             <td>{{ l.login_id }}</td>
@@ -48,15 +48,15 @@
     <table style="width: 100%">
         <tr>
             <td style="width: 25%">
-                <input type="submit" name="operation" value="previous" {% if page_no == 1 %} disabled {% endif %}>
+                <input type="submit" name="operation" value="previous" {% if form.page_no == 1 %} disabled {% endif %}>
             </td>
             <td style="width: 75%"></td>
             <td>
-                <input type="submit" name="operation" value="next" {% if list|length < 5 %} disabled {% endif %}>
+                <input type="submit" name="operation" value="next" {% if form.list|length < 5 %} disabled {% endif %}>
             </td>
         </tr>
     </table>
-    <input type="hidden" name="pageNo" value="{{page_no}}">
+    <input type="hidden" name="pageNo" value="{{form.page_no}}">
 </form>
 </body>
 </html>

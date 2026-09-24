@@ -6,49 +6,66 @@
 </head>
 <body>
 {% include 'header.html' %}
-<form action="/ors/save/" method="POST">
+<form method="POST">
     {% csrf_token %}
     <div align="center">
-        {% if data.id > 0 %}
-        <td><h1>Update User</h1></td>
-        {% else %}
-        <td><h1>Add User</h1></td>
-        {% endif %}
+        <h1 style="margin-bottom: -10px; color: navy;">
+            {% if form.id > 0 %}
+            Update User
+            {% else %}
+            Add User
+            {% endif %}
+        </h1>
+        <div style="height: 30px;">
+            {% if form.error %}
+            <h3><font color="red">{{ form.message }}</font></h3>
+            {% else %}
+            <h3><font color="green">{{ form.message }}</font></h3>
+            {% endif %}
+        </div>
+        <input type="hidden" name="id" value="{{ form.id }}">
         <table>
             <tr>
-                <td><input type="hidden" name="id" value="{{ data.id }}"></td>
-            </tr>
-            <tr>
                 <th>First Name:</th>
-                <td><input type="text" name="firstName" value="{{ data.first_name }}"></td>
+                <td><input type="text" name="firstName" value="{{ form.first_name }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.first_name }}</font></td>
             </tr>
             <tr>
                 <th>Last Name:</th>
-                <td><input type="text" name="lastName" value="{{ data.last_name }}"></td>
+                <td><input type="text" name="lastName" value="{{ form.last_name }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.last_name }}</font></td>
             </tr>
             <tr>
                 <th>Login ID:</th>
-                <td><input type="text" name="loginId" value="{{ data.login_id }}"></td>
+                <td><input type="text" name="loginId" value="{{ form.login_id }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.login_id }}</font></td>
             </tr>
             <tr>
                 <th>Password:</th>
-                <td><input type="text" name="password" value="{{ data.password }}"></td>
+                <td><input type="text" name="password" value="{{ form.password }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.password }}</font></td>
             </tr>
             <tr>
                 <th>DOB:</th>
-                <td><input type="text" name="dob" value="{{ data.dob }}"></td>
+                <td><input type="date" name="dob" value="{{ form.dob }}" style="width:98%"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.dob }}</font></td>
             </tr>
             <tr>
                 <th>Address:</th>
-                <td><input type="text" name="address" value="{{ data.address }}"></td>
+                <td><input type="text" name="address" value="{{ form.address }}"></td>
+                <td style="position: fixed;"><font color="red">{{ form.input_error.address }}</font></td>
             </tr>
             <tr>
                 <th></th>
-                {% if data.id > 0 %}
-                <td><input type="submit" value="update"></td>
-                {% else %}
-                <td><input type="submit" value="save"></td>
-                {% endif %}
+                <td>
+                    {% if form.id > 0 %}
+                    <input type="submit" name="operation" value="update">
+                    <input type="submit" name="operation" value="list">
+                    {% else %}
+                    <input type="submit" name="operation" value="save">
+                    <input type="submit" name="operation" value="reset">
+                    {% endif %}
+                </td>
             </tr>
         </table>
     </div>

@@ -5,6 +5,7 @@ class DataValidator:
             return True
         else:
             False
+
     @staticmethod
     def is_not_null(val):
         if val == None or val == "":

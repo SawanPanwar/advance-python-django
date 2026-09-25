@@ -3,42 +3,6 @@ from .service.user_service import UserService
 from .utility.data_validator import DataValidator
 
 
-def init_form():
-    form = {}
-    form['id'] = 0
-    form['message'] = ''
-    form['error'] = False
-    form['input_error'] = {}
-    form['page_no'] = 1
-    form['page_size'] = 5
-    form['list'] = []
-    return form
-
-
-def request_to_form(request):
-    form = {}
-    form['id'] = int(request.POST.get('id', 0))
-    form['first_name'] = request.POST.get('firstName')
-    form['last_name'] = request.POST.get('lastName')
-    form['login_id'] = request.POST.get('loginId')
-    form['password'] = request.POST.get('password')
-    form['dob'] = request.POST.get('dob')
-    form['address'] = request.POST.get('address')
-    return form
-
-
-def dict_to_form(user_data):
-    form = {}
-    form['id'] = user_data.get('id')
-    form['first_name'] = user_data.get('first_name')
-    form['last_name'] = user_data.get('last_name')
-    form['login_id'] = user_data.get('login_id')
-    form['password'] = user_data.get('password')
-    form['dob'] = user_data.get('dob').strftime('%Y-%m-%d')
-    form['address'] = user_data.get('address')
-    return form
-
-
 def user_signup_validate(request):
     input_error = {}
     input_error['error'] = False
@@ -80,17 +44,23 @@ def welcome(request):
 
 
 def user_signup(request):
+    form = {}
+    form['message'] = ''
+    form['error'] = False
+    form['input_error'] = {}
+
     if request.method == "GET":
-        form = init_form()
         return render(request, 'registration.html', {'form': form})
 
     if request.method == "POST":
 
         if request.POST.get('operation', '') == "signUp":
-
-            form = init_form()
-
-            form.update(request_to_form(request))
+            form['first_name'] = request.POST.get('firstName')
+            form['last_name'] = request.POST.get('lastName')
+            form['login_id'] = request.POST.get('loginId')
+            form['password'] = request.POST.get('password')
+            form['dob'] = request.POST.get('dob')
+            form['address'] = request.POST.get('address')
 
             form['input_error'] = user_signup_validate(request)
 
@@ -111,12 +81,15 @@ def user_signup(request):
 
 
 def user_signin(request):
+    form = {}
+    form['message'] = ''
+    form['error'] = False
+    form['input_error'] = {}
+
     if request.method == "GET":
-        form = init_form()
         return render(request, 'login.html', {'form': form})
 
     if request.method == "POST":
-        form = init_form()
 
         if request.POST.get('operation', '') == "signIn":
             form['login_id'] = request.POST.get('loginId')
@@ -148,8 +121,12 @@ def user_logout(request):
 
 
 def user_list(request):
+    form = {}
+    form['page_no'] = 1
+    form['page_size'] = 5
+    form['list'] = []
+
     if request.method == "GET":
-        form = init_form()
         form['list'] = UserService().search(form)
         form['index'] = (form['page_no'] - 1) * form['page_size']
         form['has_previous'] = form['page_no'] == 1
@@ -157,8 +134,6 @@ def user_list(request):
         return render(request, "user_list.html", {"form": form})
 
     if request.method == "POST":
-        form = init_form()
-
         if request.POST['operation'] == "next":
             form['page_no'] = int(request.POST.get('pageNo'))
             form['page_no'] += 1
@@ -184,22 +159,34 @@ def delete_user(request, id=0):
 
 
 def user_save(request, id=0):
+    form = {}
+    form['message'] = ''
+    form['error'] = False
+    form['input_error'] = {}
+
     if request.method == "GET":
-        form = init_form()
 
         if id > 0:
             user_data = UserService().get(id)
-
-            form.update(dict_to_form(user_data[0]))
+            form['id'] = user_data[0].get('id')
+            form['first_name'] = user_data[0].get('first_name')
+            form['last_name'] = user_data[0].get('last_name')
+            form['login_id'] = user_data[0].get('login_id')
+            form['password'] = user_data[0].get('password')
+            form['dob'] = user_data[0].get('dob').strftime('%Y-%m-%d')
+            form['address'] = user_data[0].get('address')
 
         return render(request, 'user.html', {'form': form})
 
     if request.method == "POST":
-        form = init_form()
 
         if request.POST.get('operation', '') == "save":
-
-            form.update(request_to_form(request))
+            form['first_name'] = request.POST.get('firstName')
+            form['last_name'] = request.POST.get('lastName')
+            form['login_id'] = request.POST.get('loginId')
+            form['password'] = request.POST.get('password')
+            form['dob'] = request.POST.get('dob')
+            form['address'] = request.POST.get('address')
 
             form['input_error'] = user_signup_validate(request)
 
@@ -216,8 +203,13 @@ def user_save(request, id=0):
             return render(request, 'user.html', {'form': form})
 
         if request.POST.get('operation', '') == "update":
-
-            form.update(request_to_form(request))
+            form['id'] = int(request.POST.get('id', 0))
+            form['first_name'] = request.POST.get('firstName')
+            form['last_name'] = request.POST.get('lastName')
+            form['login_id'] = request.POST.get('loginId')
+            form['password'] = request.POST.get('password')
+            form['dob'] = request.POST.get('dob')
+            form['address'] = request.POST.get('address')
 
             form['input_error'] = user_signup_validate(request)
 

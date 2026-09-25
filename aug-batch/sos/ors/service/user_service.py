@@ -46,6 +46,11 @@ class UserService:
         dob = data['dob']
         address = data['address']
 
+        user_exist = self.find_by_login(login_id)
+
+        if len(user_exist) > 0 and user_exist[0].get('id') != id:
+            raise Exception('Login ID already exist')
+
         cursor = connection.cursor()
         sql = "update sos_user set first_name = %s, last_name = %s,login_id = %s, password = %s, dob = %s, address = %s where id = %s"
         data = (first_name, last_name, login_id, password, dob, address, id)

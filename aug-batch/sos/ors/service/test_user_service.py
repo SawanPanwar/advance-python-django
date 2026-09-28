@@ -132,9 +132,9 @@ def test_search():
 
     service = UserService()
 
-    result = service.search(params)
+    users = service.search(params)
 
-    for user in result:
+    for user in users:
         print(
             user.id,
             user.first_name,

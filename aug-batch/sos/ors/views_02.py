@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-
-from .models import User
 from .service.user_service import UserService
 from .utility.data_validator import DataValidator
 
@@ -29,26 +27,15 @@ def request_to_form(request):
     return form
 
 
-def form_to_model(form, obj):
-    obj.id = form['id']
-    obj.first_name = form['first_name']
-    obj.last_name = form['last_name']
-    obj.login_id = form['login_id']
-    obj.password = form['password']
-    obj.dob = form['dob']
-    obj.address = form['address']
-    return obj
-
-
-def model_to_form(obj):
+def dict_to_form(user_data):
     form = {}
-    form['id'] = obj.id
-    form['first_name'] = obj.first_name
-    form['last_name'] = obj.last_name
-    form['login_id'] = obj.login_id
-    form['password'] = obj.password
-    form['dob'] = obj.dob.strftime('%Y-%m-%d')
-    form['address'] = obj.address
+    form['id'] = user_data.get('id')
+    form['first_name'] = user_data.get('first_name')
+    form['last_name'] = user_data.get('last_name')
+    form['login_id'] = user_data.get('login_id')
+    form['password'] = user_data.get('password')
+    form['dob'] = user_data.get('dob').strftime('%Y-%m-%d')
+    form['address'] = user_data.get('address')
     return form
 
 
@@ -111,8 +98,7 @@ def user_signup(request):
                 return render(request, 'registration.html', {'form': form})
 
             try:
-                user = form_to_model(form, User())
-                UserService().save(user)
+                UserService().add(form)
                 form['message'] = 'User Registration Successfully...!!!'
                 form['error'] = False
             except Exception as e:
@@ -141,10 +127,10 @@ def user_signin(request):
             if form['input_error']['error']:
                 return render(request, 'login.html', {'form': form})
 
-            user = UserService().authenticate(form['login_id'], form['password'])
+            user_data = UserService().authenticate(form['login_id'], form['password'])
 
-            if user:
-                request.session['first_name'] = user.first_name
+            if user_data:
+                request.session['first_name'] = user_data[0].get('first_name')
                 return redirect('/ors/welcome/')
             else:
                 form['message'] = 'Login ID & Password Invalid'
@@ -165,6 +151,9 @@ def user_list(request):
     if request.method == "GET":
         form = init_form()
         form['list'] = UserService().search(form)
+        form['index'] = (form['page_no'] - 1) * form['page_size']
+        form['has_previous'] = form['page_no'] == 1
+        form['has_next'] = len(form['list']) < 5
         return render(request, "user_list.html", {"form": form})
 
     if request.method == "POST":
@@ -183,6 +172,9 @@ def user_list(request):
             form['first_name'] = request.POST.get('firstName')
 
         form['list'] = UserService().search(form)
+        form['index'] = (form['page_no'] - 1) * form['page_size']
+        form['has_previous'] = form['page_no'] == 1
+        form['has_next'] = len(form['list']) < 5
         return render(request, "user_list.html", {"form": form})
 
 
@@ -196,19 +188,16 @@ def user_save(request, id=0):
         form = init_form()
 
         if id > 0:
-            user = UserService().get(id)
+            user_data = UserService().get(id)
 
-            form.update(model_to_form(user))
+            form.update(dict_to_form(user_data[0]))
 
         return render(request, 'user.html', {'form': form})
 
     if request.method == "POST":
+        form = init_form()
 
-        operation = request.POST.get('operation', '')
-
-        if operation in ['save', 'update']:
-
-            form = init_form()
+        if request.POST.get('operation', '') == "save":
 
             form.update(request_to_form(request))
 
@@ -218,23 +207,34 @@ def user_save(request, id=0):
                 return render(request, 'user.html', {'form': form})
 
             try:
-                user = form_to_model(form, User())
-                UserService().save(user)
-                if form['id'] > 0:
-                    form['message'] = 'User Updated Successfully...!!!'
-                    form['error'] = False
-                else:
-                    form['message'] = 'User Added Successfully...!!!'
-                    form['error'] = False
-
+                UserService().add(form)
+                form['message'] = 'User Added Successfully...!!!'
+                form['error'] = False
             except Exception as e:
                 form['message'] = str(e)
                 form['error'] = True
-
             return render(request, 'user.html', {'form': form})
 
-        if operation == "reset":
+        if request.POST.get('operation', '') == "update":
+
+            form.update(request_to_form(request))
+
+            form['input_error'] = user_signup_validate(request)
+
+            if form['input_error']['error']:
+                return render(request, 'user.html', {'form': form})
+
+            try:
+                UserService().update(form)
+                form['message'] = 'User Updated Successfully...!!!'
+                form['error'] = False
+            except Exception as e:
+                form['message'] = str(e)
+                form['error'] = True
+            return render(request, 'user.html', {'form': form})
+
+        if request.POST.get('operation', '') == "reset":
             return redirect('/ors/save/')
 
-        if operation == "list":
+        if request.POST.get('operation', '') == "list":
             return redirect('/ors/list/')

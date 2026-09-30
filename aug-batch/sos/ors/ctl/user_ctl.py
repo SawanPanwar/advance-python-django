@@ -5,7 +5,7 @@ from ..service.user_service import UserService
 from ..utility.data_validator import DataValidator
 
 
-class RegistrationCtl:
+class UserCtl:
 
     def __init__(self):
         self.form = {}
@@ -33,6 +33,15 @@ class RegistrationCtl:
         obj.address = self.form['address']
         return obj
 
+    def model_to_form(self, obj):
+        self.form['id'] = obj.id
+        self.form['first_name'] = obj.first_name
+        self.form['last_name'] = obj.last_name
+        self.form['login_id'] = obj.login_id
+        self.form['password'] = obj.password
+        self.form['dob'] = obj.dob.strftime('%Y-%m-%d')
+        self.form['address'] = obj.address
+
     def input_validation(self, request):
         input_error = self.form['input_error']
         input_error['error'] = False
@@ -57,26 +66,37 @@ class RegistrationCtl:
         return input_error['error']
 
     def display(self, request):
-        return render(request, 'registration.html', {'form': self.form})
+        return render(request, 'user.html', {'form': self.form})
 
     def submit(self, request):
 
-        if request.POST.get('operation', '') == "signUp":
+        operation = request.POST.get('operation', '')
+
+        if operation in ['save', 'update']:
 
             self.request_to_form(request)
 
             if self.input_validation(request):
-                return render(request, 'registration.html', {'form': self.form})
+                return render(request, 'user.html', {'form': self.form})
 
             try:
                 user = self.form_to_model(User())
                 UserService().save(user)
-                self.form['message'] = 'User Registration Successfully...!!!'
-                self.form['error'] = False
+                if self.form['id'] > 0:
+                    self.form['message'] = 'User Updated Successfully...!!!'
+                    self.form['error'] = False
+                else:
+                    self.form['message'] = 'User Added Successfully...!!!'
+                    self.form['error'] = False
+
             except Exception as e:
                 self.form['message'] = str(e)
                 self.form['error'] = True
-            return render(request, 'registration.html', {'form': self.form})
 
-        if request.POST.get('operation', '') == "reset":
-            return redirect('/ors/Registration/')
+            return render(request, 'user.html', {'form': self.form})
+
+        if operation == "reset":
+            return redirect('/ors/User/')
+
+        if operation == "list":
+            return redirect('/ors/UserList/')

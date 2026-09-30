@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .ctl.welcome_ctl import WelcomeCtl
 from .ctl.registration_ctl import RegistrationCtl
 from .ctl.login_ctl import LoginCtl
+from .ctl.user_ctl import UserCtl
+from .ctl.user_list_ctl import UserListCtl
 
 
 def welcome(request):

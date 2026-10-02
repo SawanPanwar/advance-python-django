@@ -24,3 +24,13 @@ def action(request, page):  # page = Registration
 
     if request.method == "POST":
         return ctl_obj.submit(request)
+
+def action_operation_id(request, page, operation='', id=0):
+    ctl_name = page + "Ctl()"
+    ctl_obj = eval(ctl_name)
+
+    if request.method == "GET":
+        return ctl_obj.display(request, operation, id)
+
+    if request.method == "POST":
+        return ctl_obj.submit(request)

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from ..service.user_service import UserService
 
@@ -16,7 +16,10 @@ class UserListCtl:
     def request_to_form(self, request):
         self.form['first_name'] = request.POST.get('firstName')
 
-    def display(self, request):
+    def display(self, request, operation='', id=0):
+        if operation == 'delete':
+            UserService().delete(id)
+            return redirect('/ors/UserList/')
         self.form['list'] = UserService().search(self.form)
         return render(request, "user_list.html", {"form": self.form})
 

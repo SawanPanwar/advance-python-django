@@ -1,18 +1,12 @@
 from django.shortcuts import render, redirect
 
+from .base_ctl import BaseCtl
 from ..models import User
 from ..service.user_service import UserService
 from ..utility.data_validator import DataValidator
 
 
-class UserCtl:
-
-    def __init__(self):
-        self.form = {}
-        self.form['id'] = 0
-        self.form['message'] = ''
-        self.form['error'] = False
-        self.form['input_error'] = {}
+class UserCtl(BaseCtl):
 
     def request_to_form(self, request):
         self.form['id'] = int(request.POST.get('id', 0))
@@ -65,10 +59,13 @@ class UserCtl:
             input_error['error'] = True
         return input_error['error']
 
-    def display(self, request):
-        return render(request, 'user.html', {'form': self.form})
+    def display(self, request, params={}):
+        if params['operation'] == 'edit' and params['id'] > 0:
+            user = self.get_service().get(params['id'])
+            self.model_to_form(user)
+        return render(request, self.get_template(), {'form': self.form})
 
-    def submit(self, request):
+    def submit(self, request, params={}):
 
         operation = request.POST.get('operation', '')
 
@@ -77,11 +74,11 @@ class UserCtl:
             self.request_to_form(request)
 
             if self.input_validation(request):
-                return render(request, 'user.html', {'form': self.form})
+                return render(request, self.get_template(), {'form': self.form})
 
             try:
                 user = self.form_to_model(User())
-                UserService().save(user)
+                self.get_service().save(user)
                 if self.form['id'] > 0:
                     self.form['message'] = 'User Updated Successfully...!!!'
                     self.form['error'] = False
@@ -93,10 +90,16 @@ class UserCtl:
                 self.form['message'] = str(e)
                 self.form['error'] = True
 
-            return render(request, 'user.html', {'form': self.form})
+            return render(request, self.get_template(), {'form': self.form})
 
         if operation == "reset":
             return redirect('/ors/User/')
 
         if operation == "list":
             return redirect('/ors/UserList/')
+
+    def get_service(self):
+        return UserService()
+
+    def get_template(self):
+        return 'user.html'

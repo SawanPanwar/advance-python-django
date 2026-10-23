@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if request.session.first_name != None %}
+<h3>Hi, {{ request.session.first_name }}</h3>
+<a href="/ors/User/"><b>Add User</b></a> <b>|</b>
+<a href="/ors/UserList/"><b>User List</b></a> <b>|</b>
+<a href="/ors/Role/"><b>Add Role</b></a> <b>|</b>
+<a href="/ors/RoleList/"><b>Role List</b></a> <b>|</b>
+<a href="/ors/logout/"><b>Logout</b></a>
+{% else %}
+<h3>Hi, Guest</h3>
+<a href="/ors/Welcome/"><b>Welcome</b></a> <b>|</b>
+<a href="/ors/Login/"><b>Login</b></a>
+{% endif %}
+<hr>
+</body>
+</html>

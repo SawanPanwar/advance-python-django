@@ -6,7 +6,6 @@ class BaseService(ABC):
     def save(self, obj):
         return self.get_dao().save(obj)
 
-
     def get(self, pk):
         return self.get_dao().get(pk)
 
